@@ -37,28 +37,57 @@ function OcrArt() {
   );
 }
 
-/** A CV and a role, with skills linking them. */
-function HrArt() {
-  const card = (x: number) => (
-    <g>
-      <rect x={x} y="28" width="92" height="124" rx="10" className="fill-bg stroke-line" strokeWidth={1.2} />
-      <circle cx={x + 22} cy="52" r="11" className={soft} />
-      <rect x={x + 40} y="45" width="40" height="5" rx="2.5" className="fill-line" />
-      <rect x={x + 40} y="55" width="28" height="4" rx="2" className="fill-line" />
-      {[0, 1, 2, 3].map((i) => <rect key={i} x={x + 12} y={80 + i * 16} width={i % 2 ? 54 : 68} height="7" rx="3.5" className={i === 1 || i === 2 ? soft : 'fill-line'} />)}
-    </g>
-  );
+/** A chain of narration (isnad) leading to a text (matn) that is matched and verified. */
+function HadithArt() {
+  const chain: [number, number][] = [[44, 34], [44, 74], [44, 114], [44, 154]];
   return (
     <svg viewBox="0 0 320 180" aria-hidden="true" className="h-full w-full" direction="ltr">
-      {card(24)}
-      {card(204)}
-      <g fill="none" className={line} strokeWidth={1.2}>
-        <path d="M94 99 C140 99 140 80 160 80 C180 80 180 99 224 99" />
-        <path d="M80 115 C140 115 140 112 160 112 C180 112 180 115 216 115" strokeDasharray="3 3" />
+      <g fill="none" className={line} strokeWidth={1.3}>
+        {chain.slice(1).map(([x, y], i) => <line key={i} x1={x} y1={chain[i][1] + 9} x2={x} y2={y - 9} />)}
+        <path d="M53 74 C80 74 84 58 104 58" strokeDasharray="3 3" />
+        <path d="M53 154 C110 154 120 96 150 96" />
       </g>
-      <circle cx="160" cy="96" r="20" className={soft} />
-      <circle cx="160" cy="96" r="20" fill="none" className={line} strokeWidth={1.2} />
-      <path d="M151 96 l6 6 12 -12" fill="none" className="stroke-bright dark:stroke-sky" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      {chain.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={9} className={i === chain.length - 1 ? solid : 'fill-bg stroke-bright/60 dark:stroke-sky/55'} strokeWidth={1.3} />
+      ))}
+      <circle cx="110" cy="58" r="6" className="fill-bg stroke-bright/40 dark:stroke-sky/35" strokeWidth={1.2} strokeDasharray="2 2" />
+      <g fontFamily="var(--font-display)" fontSize="11" className="fill-muted" direction="rtl" textAnchor="start">
+        <text x="88" y="38">حدّثنا</text>
+        <text x="88" y="78">عن</text>
+        <text x="88" y="118">عن</text>
+      </g>
+      <rect x="150" y="48" width="140" height="96" rx="10" className="fill-bg stroke-line" strokeWidth={1.2} />
+      {[0, 1, 2, 3].map((i) => <rect key={i} x={164} y={66 + i * 16} width={i === 3 ? 70 : 112} height="6" rx="3" className={i === 1 ? soft : 'fill-line'} />)}
+      <rect x="160" y="78" width="120" height="18" rx="4" fill="none" className={line} strokeWidth={1.1} strokeDasharray="4 3" />
+      <g transform="translate(266 28)">
+        <circle cx="12" cy="12" r="12" className={solid} />
+        <path d="M6.5 12.5 l3.8 3.8 7.4 -8" fill="none" className="stroke-white dark:stroke-night" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </svg>
+  );
+}
+
+/** A recitation waveform: the recognised ayah segment highlighted, with tajweed marks above it. */
+function QuranArt() {
+  const bars = Array.from({ length: 46 }, (_, i) => 10 + Math.round(34 * Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.21))) + (i % 3) * 3);
+  return (
+    <svg viewBox="0 0 320 180" aria-hidden="true" className="h-full w-full" direction="ltr">
+      <rect x="112" y="36" width="104" height="108" rx="12" className={soft} />
+      <rect x="112" y="36" width="104" height="108" rx="12" fill="none" className={line} strokeWidth={1.1} strokeDasharray="4 3" />
+      <g>
+        {bars.map((h, i) => {
+          const x = 22 + i * 6.1, inSeg = x > 116 && x < 212;
+          return <rect key={i} x={x} y={90 - h} width={3.4} height={h * 2} rx={1.7} className={inSeg ? solid : 'fill-bright/30 dark:fill-sky/25'} />;
+        })}
+      </g>
+      <g className={solid}>
+        {[132, 158, 186].map((x) => <circle key={x} cx={x} cy={26} r={3.2} />)}
+      </g>
+      <path d="M132 26 v8 M158 26 v8 M186 26 v8" className={line} strokeWidth={1} />
+      <g transform="translate(270 128)">
+        <rect x="0" y="0" width="22" height="32" rx="11" className="fill-bg stroke-bright/60 dark:stroke-sky/55" strokeWidth={1.4} />
+        <path d="M-6 18 a17 17 0 0 0 34 0 M11 35 v8" fill="none" className={line} strokeWidth={1.4} strokeLinecap="round" />
+      </g>
     </svg>
   );
 }
@@ -88,15 +117,15 @@ function CyberArt() {
   );
 }
 
-const ART: Record<string, () => React.JSX.Element> = { ocr: OcrArt, hr: HrArt, cyber: CyberArt };
-const ICON: Record<string, IconName> = { ocr: 'document', hr: 'people', cyber: 'shield' };
+const ART: Record<string, () => React.JSX.Element> = { hadith: HadithArt, quran: QuranArt, ocr: OcrArt, cyber: CyberArt };
+const ICON: Record<string, IconName> = { hadith: 'book', quran: 'audio', ocr: 'document', cyber: 'shield' };
 
 export function Projects({ t }: { t: Dictionary['projects'] }) {
   return (
     <section id="projects" aria-labelledby="projects-title" className="relative overflow-hidden border-t border-line py-24 sm:py-28">
       <Container className="relative flex flex-col gap-14">
         <SectionHeading id="projects-title" num={t.num} label={t.label} title={t.title} intro={t.intro} />
-        <ol className="grid gap-6 lg:grid-cols-3">
+        <ol className="grid gap-6 md:grid-cols-2">
           {t.items.map((p, i) => {
             const Art = ART[p.key];
             const n = String(i + 1).padStart(2, '0');
@@ -122,6 +151,7 @@ export function Projects({ t }: { t: Dictionary['projects'] }) {
                       </li>
                     ))}
                   </ul>
+                  {p.note ? <p className="rounded-xl bg-surface px-3.5 py-2.5 text-xs leading-relaxed text-muted ring-1 ring-line">{p.note}</p> : null}
                   <div className="mt-auto flex flex-col gap-4 pt-2">
                     <Tags items={p.tags} />
                     <a href="#contact" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-link">
