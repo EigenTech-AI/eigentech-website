@@ -16,7 +16,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <p className="text-sm leading-relaxed text-muted">{dict.footer.tagline}</p>
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm sm:grid-cols-3">
-          {(['services', 'platform', 'edge', 'industries', 'about', 'contact'] as const).map((k) => (
+          {(['services', 'projects', 'platform', 'edge', 'industries', 'about', 'contact'] as const).map((k) => (
             <a key={k} href={`${home}#${k}`} className="text-muted transition hover:text-fg">
               {dict.nav[k]}
             </a>

@@ -14,7 +14,7 @@ export function Services({ t }: { t: Dictionary['services'] }) {
             <li key={s.key} className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-bg transition duration-300 hover:-translate-y-1 hover:border-bright/60 hover:shadow-xl hover:shadow-royal/10 dark:hover:border-sky/50">
               {/* Illustrated header: grid, glow and the service icon */}
               <div className="relative h-36 overflow-hidden border-b border-line bg-gradient-to-br from-surface to-surface-2 dark:from-surface dark:to-surface-2">
-                <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-80" />
+                <div aria-hidden="true" className="bg-khatam absolute inset-0 opacity-80" />
                 <div aria-hidden="true" className="glow absolute -end-10 -top-10 h-48 w-48 transition duration-500 group-hover:scale-125" />
                 <span className="label-mono absolute start-5 top-4 text-muted tabular-nums">{String(i + 1).padStart(2, '0')}</span>
                 <span className="absolute bottom-5 start-5 grid h-14 w-14 place-items-center rounded-2xl bg-royal text-white shadow-lg shadow-royal/25 dark:bg-sky dark:text-night">

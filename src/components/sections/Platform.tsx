@@ -59,7 +59,7 @@ export function Platform({ t }: { t: Dictionary['platform'] }) {
           {t.pillars.map((p, i) => (
             <li key={p.key} className="flex flex-col overflow-hidden rounded-3xl border border-line bg-bg">
               <div className="relative h-40 border-b border-line bg-gradient-to-b from-surface-2/50 to-bg px-6 pt-6">
-                <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-70" />
+                <div aria-hidden="true" className="bg-khatam absolute inset-0 opacity-70" />
                 <div className="relative h-full">
                   <PillarArt k={p.key} />
                 </div>

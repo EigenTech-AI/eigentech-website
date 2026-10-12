@@ -3,6 +3,7 @@ import type { Dictionary } from '@/i18n/get-dictionary';
 import { site } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { SectionKicker } from '@/components/ui/SectionHeading';
 import { ContactForm } from './ContactForm';
 
 export function Contact({ locale, t }: { locale: Locale; t: Dictionary['contact'] }) {
@@ -14,16 +15,12 @@ export function Contact({ locale, t }: { locale: Locale; t: Dictionary['contact'
   ];
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-24 sm:py-28">
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(70%_60%_at_20%_40%,black,transparent)]" />
+      <div aria-hidden="true" className="bg-khatam pointer-events-none absolute inset-0 [mask-image:radial-gradient(70%_60%_at_20%_40%,black,transparent)]" />
       <div aria-hidden="true" className="glow pointer-events-none absolute -bottom-40 start-[-10%] h-[34rem] w-[34rem]" />
       <Container className="relative grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-4">
-            <p className="label-mono flex items-center gap-3 text-bright dark:text-sky">
-              <span className="tabular-nums">{t.num}</span>
-              <span aria-hidden="true" className="h-px w-8 bg-bright/50 dark:bg-sky/50" />
-              <span>{t.label}</span>
-            </p>
+            <SectionKicker num={t.num} label={t.label} />
             <h2 id="contact-title" className="text-4xl leading-[1.08] font-medium tracking-tight text-fg sm:text-5xl rtl:leading-[1.3]">{t.title}</h2>
             <p className="max-w-lg text-lg leading-relaxed text-muted">{t.intro}</p>
           </div>

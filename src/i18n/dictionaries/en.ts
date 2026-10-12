@@ -6,6 +6,7 @@ const en = {
   },
   nav: {
     services: 'Services',
+    projects: 'Projects',
     platform: 'Platform',
     edge: 'Our edge',
     industries: 'Industries',
@@ -22,19 +23,19 @@ const en = {
     linkedin: 'EigenTech on LinkedIn',
   },
   hero: {
-    eyebrow: 'Computer vision · 3D reconstruction · Multimodal AI',
+    eyebrow: 'Deep-tech AI, built in-house',
     titleStart: 'Our own technology,',
     titleAccent: 'for our communities.',
     subtitle:
-      'We research, build and deploy AI that understands the physical world: computer vision in 3D, models that learn from images, text and sensors together, and the software that puts them to work.',
-    primary: 'Explore our services',
+      'We research, build and deploy AI that understands documents, people and the physical world: Arabic OCR, AI for HR, AI-driven cybersecurity and computer vision in 3D.',
+    primary: 'See our projects',
     secondary: 'Contact us',
     stats: [
-      { value: '3', label: 'Core technologies' },
+      { value: '3', label: 'Flagship projects' },
       { value: '6', label: 'Service lines' },
       { value: '2', label: 'Languages: Arabic & English' },
     ],
-    orbit: ['Perceive', 'Reconstruct', 'Learn', 'Deploy'],
+    axis: { axis: 'Axis = eigenvector', lambda: 'λ = 1', rotation: 'R(θ)', equation: 'Rv = v' },
     markLabel:
       'EigenTech mark: a crescent and an arrow forming the letter E, with a neural network that turns around the arrow axis.',
     markCaption: 'The network turns. The arrow, its eigenvector, holds its direction.',
@@ -53,8 +54,39 @@ const en = {
       { key: 'research', title: 'Research & development', text: 'Joint R&D, prototypes and proofs of concept with universities, government and industry partners.', tags: ['Prototypes', 'Proof of concept', 'Partnerships'] },
     ],
   },
-  platform: {
+  projects: {
     num: '02',
+    label: 'Projects',
+    title: 'What we are building',
+    intro: 'Three flagship projects where our own technology meets real needs in the region.',
+    projectLabel: 'Project',
+    cta: 'Discuss this project',
+    items: [
+      {
+        key: 'ocr',
+        title: 'Arabic OCR',
+        text: 'Reading Arabic the way it is really written: printed and handwritten text, connected letters, diacritics and mixed Arabic-English documents.',
+        points: ['Printed, handwritten and historical text', 'Forms, invoices and IDs to structured data', 'Arabic and English in the same page'],
+        tags: ['Document AI', 'Handwriting', 'Diacritics'],
+      },
+      {
+        key: 'hr',
+        title: 'AI for HR',
+        text: 'Helping HR teams find and grow the right people: CV understanding and matching in Arabic and English, built to support fair decisions.',
+        points: ['CV parsing and skills extraction', 'Candidate and role matching, screening support', 'Workforce and skills analytics'],
+        tags: ['CV matching', 'Skills', 'Fair hiring'],
+      },
+      {
+        key: 'cyber',
+        title: 'Cybersecurity',
+        text: 'AI that watches networks, logs and messages for anything unusual, so security teams see real threats sooner and with less noise.',
+        points: ['Anomaly detection on network and log data', 'Phishing and fraud detection, including Arabic content', 'Alert triage and security analytics'],
+        tags: ['Threat detection', 'Anomalies', 'Phishing'],
+      },
+    ],
+  },
+  platform: {
+    num: '03',
     label: 'Platform',
     title: 'How we build it',
     intro: 'A modular pipeline we own end to end, from the first camera frame to a secure system in production.',
@@ -62,12 +94,12 @@ const en = {
     pillars: [
       { key: 'capture', title: 'Data & capture', text: 'Camera, video, document and sensor pipelines, with calibration, cleaning and labelling built in.', tags: ['Multi-camera', 'Sensor data', 'Annotation'] },
       { key: 'vision', title: '3D reconstruction engine', text: 'Geometry, depth and motion recovered from images: point clouds, meshes, digital twins and human pose in 3D.', tags: ['Photogrammetry', 'Depth', 'Pose'] },
-      { key: 'multimodal', title: 'Multimodal learning', text: 'Models that fuse vision, language and signals, trained and evaluated on data that reflects the region.', tags: ['Vision-language', 'Fusion', 'Arabic NLP'] },
+      { key: 'multimodal', title: 'Multimodal & Arabic language', text: 'Models that fuse vision, language and signals, including Arabic text and documents, trained and evaluated on data that reflects the region.', tags: ['Vision-language', 'Arabic OCR', 'Arabic NLP'] },
       { key: 'deploy', title: 'Secure deployment', text: 'Containerised services and APIs on cloud, on-premise or edge devices, with access control and monitoring.', tags: ['APIs', 'Edge', 'On-premise'] },
     ],
   },
   edge: {
-    num: '03',
+    num: '04',
     label: 'Our edge',
     title: 'Where we lead',
     intro: 'Three areas of deep expertise, combined in one team and built on our own technology.',
@@ -100,7 +132,7 @@ const en = {
     ],
   },
   industries: {
-    num: '04',
+    num: '05',
     label: 'Industries',
     title: 'Where we work',
     intro: 'Built for sectors where seeing, measuring and understanding the physical world makes the difference.',
@@ -111,12 +143,12 @@ const en = {
       { key: 'factory', title: 'Industry & energy' },
       { key: 'education', title: 'Education' },
       { key: 'heritage', title: 'Culture & heritage' },
-      { key: 'retail', title: 'Retail & logistics' },
+      { key: 'finance', title: 'Finance & banking' },
       { key: 'shield', title: 'Security & safety' },
     ],
   },
   about: {
-    num: '05',
+    num: '06',
     label: 'About',
     title: 'Who we are',
     overview:
@@ -153,7 +185,7 @@ const en = {
     followCta: 'Follow us on LinkedIn',
   },
   contact: {
-    num: '06',
+    num: '07',
     label: 'Contact',
     title: 'Let’s build what’s next',
     intro: 'Whether you need an AI system built from scratch or want to bring vision and intelligence into what you already run, tell us about it. We reply within two working days.',
@@ -164,7 +196,7 @@ const en = {
       organisation: 'Organisation',
       optional: 'optional',
       interest: 'I am interested in',
-      interests: ['AI solutions', '3D reconstruction & vision', 'Multimodal machine learning', 'Software development', 'AI consulting', 'Research & partnership', 'Something else'],
+      interests: ['Arabic OCR', 'AI for HR', 'Cybersecurity', 'AI solutions', '3D reconstruction & vision', 'Multimodal machine learning', 'Software development', 'AI consulting', 'Research & partnership', 'Something else'],
       message: 'Your message',
       messageHint: 'What is the problem, and what would success look like?',
       consent: 'I agree that EigenTech may use these details to reply to my enquiry.',

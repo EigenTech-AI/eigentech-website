@@ -20,11 +20,11 @@ src/
   app/
     (root)/            "/" — picks /en/ or /ar/ from the visitor's saved choice or browser language
     [locale]/          English and Arabic pages (layout sets lang, dir="rtl" for Arabic, theme, SEO)
-      page.tsx         Home: Hero, Services, Platform, Edge, Industries, About, Contact
+      page.tsx         Home: Hero, Services, Projects, Platform, Edge, Industries, About, Contact
       privacy/         Privacy policy
     sitemap.ts, robots.ts
   components/
-    brand/             Logo (آيجينتك always under EigenTech), HeroMark (animated mark)
+    brand/             Logo (آيجينتك always under EigenTech), HeroMark (animated mark), MarkGlyph
     layout/            Header (mobile menu), Footer, FloatingCTA, ThemeToggle, LanguageSwitcher
     sections/          One file per home-page section, plus ContactForm
     ui/                Container, SectionHeading (numbered), Button, Tag, Icon

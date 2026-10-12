@@ -15,8 +15,8 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
   const home = `${basePath}/${locale}/`;
   const links = [
     { href: `${home}#services`, label: nav.services },
+    { href: `${home}#projects`, label: nav.projects },
     { href: `${home}#platform`, label: nav.platform },
-    { href: `${home}#edge`, label: nav.edge },
     { href: `${home}#industries`, label: nav.industries },
     { href: `${home}#about`, label: nav.about },
     { href: `${home}#contact`, label: nav.contact },

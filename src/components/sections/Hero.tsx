@@ -1,76 +1,77 @@
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { Container } from '@/components/ui/Container';
 import { ButtonLink } from '@/components/ui/Button';
-import { Icon, type IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { HeroMark } from '@/components/brand/HeroMark';
+import { MarkGlyph } from '@/components/brand/MarkGlyph';
 
-// Four stages around the mark, placed on the outer orbit (angles in degrees, 0 = right, clockwise).
-const ORBIT: { icon: IconName; angle: number }[] = [
-  { icon: 'capture', angle: 218 },
-  { icon: 'vision', angle: 322 },
-  { icon: 'multimodal', angle: 38 },
-  { icon: 'deploy', angle: 142 },
-];
+// Eight-pointed star (khatam) outline, centred, in a 100-unit box.
+const khatam = (() => {
+  const pts: string[] = [];
+  for (let k = 0; k < 16; k++) {
+    const r = k % 2 ? 46 * 0.7654 : 46, a = (k * Math.PI) / 8 - Math.PI / 2;
+    pts.push(`${(50 + r * Math.cos(a)).toFixed(2)} ${(50 + r * Math.sin(a)).toFixed(2)}`);
+  }
+  return 'M' + pts.join(' L') + ' Z';
+})();
 
-function Orbit({ labels }: { labels: string[] }) {
+/**
+ * The mark on its "eigen axis": the arrow's axis runs through the whole figure, and tilted rings show the
+ * network's rotation around it. Rotating about an axis leaves that axis unchanged: Rv = v, with λ = 1.
+ * Positions follow the mark's geometry (mark box = 64% of the figure, axis at mid-height).
+ */
+function EigenAxis({ t }: { t: Dictionary['hero']['axis'] }) {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full overflow-visible">
-        {[47, 37, 27].map((r, i) => (
-          <circle key={r} cx="50" cy="50" r={r} fill="none" className="stroke-bright/20 dark:stroke-sky/15" strokeWidth={0.25} strokeDasharray={i === 0 ? '0' : '1 1.2'} />
-        ))}
-        {ORBIT.map((o) => {
-          const a = (o.angle * Math.PI) / 180;
-          return <line key={o.angle} x1={50 + 27 * Math.cos(a)} y1={50 + 27 * Math.sin(a)} x2={50 + 44 * Math.cos(a)} y2={50 + 44 * Math.sin(a)} className="stroke-bright/45 dark:stroke-sky/40" strokeWidth={0.3} strokeDasharray="1 1" />;
-        })}
-      </svg>
-      {ORBIT.map((o, i) => {
-        const a = (o.angle * Math.PI) / 180;
-        const x = 50 + 47 * Math.cos(a), y = 50 + 47 * Math.sin(a);
-        return (
-          <div key={o.angle} className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5" style={{ left: `${x}%`, top: `${y}%` }}>
-            <span className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-bg/90 text-bright shadow-sm backdrop-blur dark:text-sky">
-              <Icon name={o.icon} className="h-5 w-5" />
-            </span>
-            <span className="label-mono whitespace-nowrap text-[0.62rem] text-muted">{labels[i]}</span>
-          </div>
-        );
-      })}
-    </div>
+    <svg viewBox="0 0 100 100" aria-hidden="true" className="absolute inset-0 h-full w-full overflow-visible" direction="ltr">
+      <path d={khatam} fill="none" className="stroke-bright/15 dark:stroke-sky/12" strokeWidth={0.35} />
+      {/* eigen axis */}
+      <line x1="1" y1="50" x2="99" y2="50" className="stroke-bright/50 dark:stroke-sky/45" strokeWidth={0.3} strokeDasharray="1.4 1.2" />
+      <path d="M99 50 l-2.2 -1.3 M99 50 l-2.2 1.3" className="stroke-bright/60 dark:stroke-sky/55" strokeWidth={0.35} strokeLinecap="round" />
+      {/* rotation rings around the network */}
+      <ellipse cx="64" cy="50" rx="11.5" ry="29" fill="none" className="stroke-bright/35 dark:stroke-sky/30" strokeWidth={0.3} />
+      <ellipse cx="73" cy="50" rx="9" ry="23.5" fill="none" className="stroke-bright/25 dark:stroke-sky/22" strokeWidth={0.25} strokeDasharray="1 1" />
+      <path d="M57.5 25.5 A11.5 29 0 0 1 72 27.5" fill="none" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
+      <path d="M72 27.5 l-2.6 -0.2 M72 27.5 l-1.2 2.2" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
+      <g className="fill-muted" fontSize="2.6" fontFamily="var(--font-display)">
+        <text x="76" y="22.5">{t.rotation}</text>
+        <text x="80" y="47.6">{t.equation}</text>
+        <text x="2" y="47.6">{t.lambda}</text>
+      </g>
+    </svg>
   );
 }
 
 export function Hero({ t }: { t: Dictionary['hero'] }) {
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(80%_70%_at_50%_30%,black,transparent)]" />
+      <div aria-hidden="true" className="bg-khatam pointer-events-none absolute inset-0 [mask-image:radial-gradient(75%_65%_at_75%_35%,black,transparent)]" />
       <div aria-hidden="true" className="glow pointer-events-none absolute -top-48 end-[-12%] h-[44rem] w-[44rem]" />
-      <div aria-hidden="true" className="glow pointer-events-none absolute -bottom-64 start-[-18%] h-[36rem] w-[36rem] opacity-70" />
       <Container className="relative grid items-center gap-14 pt-12 pb-20 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:pb-28">
         <div className="flex flex-col gap-7">
-          <p className="flex w-fit items-center gap-2.5 rounded-full border border-line bg-bg/70 px-3.5 py-1.5 text-xs font-medium text-muted backdrop-blur">
-            <span className="pulse-dot h-2 w-2 rounded-full bg-bright dark:bg-sky" />
-            <span className="label-mono text-[0.68rem] normal-case tracking-[0.08em] rtl:text-xs">{t.eyebrow}</span>
+          <p className="kicker flex items-center gap-3 text-bright dark:text-sky">
+            <MarkGlyph className="h-5 w-5" />
+            <span>{t.eyebrow}</span>
+            <span aria-hidden="true" className="h-px w-10 bg-bright/40 dark:bg-sky/40" />
           </p>
           <h1 id="hero-title" className="text-5xl leading-[1.04] font-medium tracking-tight text-fg sm:text-6xl lg:text-[4rem] xl:text-[4.4rem] rtl:leading-[1.25]">
             {t.titleStart}{' '}
-            <span className="bg-gradient-to-r from-royal to-bright bg-clip-text text-transparent dark:from-sky dark:to-network rtl:bg-gradient-to-l">{t.titleAccent}</span>
+            <span className="text-royal dark:text-sky">{t.titleAccent}</span>
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted">{t.subtitle}</p>
           <div className="flex flex-wrap items-center gap-3">
-            <ButtonLink href="#services" className="px-6 py-3">
+            <ButtonLink href="#projects" className="px-6 py-3">
               {t.primary}
               <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />
             </ButtonLink>
-            <ButtonLink href="#contact" variant="ghost" className="px-5 py-3">
+            <ButtonLink href="#contact" variant="secondary" className="px-5 py-3">
               {t.secondary}
             </ButtonLink>
           </div>
-          <dl className="mt-4 grid max-w-xl grid-cols-3 gap-6 border-t border-line pt-6">
-            {t.stats.map((s) => (
-              <div key={s.label} className="flex flex-col gap-1.5">
-                <dt className="order-2 label-mono text-[0.64rem] leading-snug text-muted rtl:text-xs">{s.label}</dt>
-                <dd className="order-1 font-display text-4xl font-medium text-royal tabular-nums dark:text-sky">{s.value}</dd>
+          <dl className="mt-4 grid max-w-xl grid-cols-3 overflow-hidden rounded-2xl border border-line bg-bg/70 backdrop-blur">
+            {t.stats.map((s, i) => (
+              <div key={s.label} className={`flex flex-col gap-1 px-4 py-4 ${i ? 'border-s border-line' : ''}`}>
+                <dt className="order-2 text-xs leading-snug text-muted">{s.label}</dt>
+                <dd className="order-1 font-display text-3xl font-medium text-royal tabular-nums dark:text-sky">{s.value}</dd>
               </div>
             ))}
           </dl>
@@ -78,13 +79,17 @@ export function Hero({ t }: { t: Dictionary['hero'] }) {
 
         <figure className="relative mx-auto w-full max-w-[34rem]">
           <div className="relative aspect-square">
-            <div aria-hidden="true" className="glow absolute inset-[12%]" />
-            <Orbit labels={t.orbit} />
-            <div className="absolute inset-[23%]">
+            <div aria-hidden="true" className="glow absolute inset-[14%]" />
+            <EigenAxis t={t.axis} />
+            <div className="absolute inset-[18%]">
               <HeroMark label={t.markLabel} />
             </div>
           </div>
-          <figcaption className="mt-2 text-center text-xs text-muted">{t.markCaption}</figcaption>
+          <figcaption className="mt-1 flex items-center justify-center gap-2 text-center text-xs text-muted">
+            <span className="font-display text-bright dark:text-sky">{t.axis.axis}</span>
+            <span aria-hidden="true">·</span>
+            <span>{t.markCaption}</span>
+          </figcaption>
         </figure>
       </Container>
     </section>
