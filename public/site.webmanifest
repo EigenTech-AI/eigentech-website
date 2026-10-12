@@ -1,0 +1,12 @@
+{
+  "name": "EigenTech · آيجينتك",
+  "short_name": "EigenTech",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060c22",
+  "theme_color": "#1d3d9c",
+  "icons": [
+    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

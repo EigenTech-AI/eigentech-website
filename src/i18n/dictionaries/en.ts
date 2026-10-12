@@ -1,0 +1,170 @@
+const en = {
+  meta: {
+    title: 'EigenTech | Our own technology, for our communities',
+    description:
+      'EigenTech builds AI, 3D reconstruction and multimodal machine learning systems in-house, and delivers software development and AI consulting for organisations in the region.',
+  },
+  nav: {
+    about: 'About',
+    services: 'Services',
+    edge: 'Our edge',
+    team: 'Leadership',
+    contact: 'Contact',
+    cta: 'Talk to us',
+    menu: 'Menu',
+    close: 'Close menu',
+    language: 'العربية',
+    languageLabel: 'Switch to Arabic',
+    themeDark: 'Switch to dark mode',
+    themeLight: 'Switch to light mode',
+    skip: 'Skip to content',
+  },
+  hero: {
+    eyebrow: 'AI · 3D reconstruction · Multimodal machine learning',
+    title: 'Our own technology, built for our communities.',
+    subtitle:
+      'EigenTech designs and builds artificial intelligence in-house: computer vision that understands 3D space, models that learn from images, text and sensors together, and the software that puts them to work.',
+    primary: 'Explore our services',
+    secondary: 'Start a project',
+    markLabel:
+      'EigenTech mark: a crescent and an arrow forming the letter E, with a neural network that turns around the arrow axis.',
+    markCaption: 'The network turns. The arrow, its eigenvector, holds its direction.',
+  },
+  about: {
+    kicker: 'About us',
+    title: 'Deep technology with a local purpose',
+    overview:
+      'EigenTech is a deep-tech startup founded by researchers in computer vision and machine learning. "Eigen" means "own": we build our own technology, from research to production, and point it at the needs of the communities we serve.',
+    mission: {
+      title: 'Mission',
+      text: 'Turn advanced research in AI and computer vision into reliable products and services that solve real problems for organisations in the region.',
+    },
+    vision: {
+      title: 'Vision',
+      text: 'A region that creates its own technology: AI that is designed here, understands Arabic and English, and keeps data and know-how close to home.',
+    },
+    valuesTitle: 'Core values',
+    values: [
+      { title: 'Ownership', text: 'We build our core technology ourselves, so we can explain it, maintain it and stand behind it.' },
+      { title: 'Scientific rigour', text: 'Every system is measured, tested and documented to research standards before it ships.' },
+      { title: 'Community first', text: 'We start from the needs of local people and institutions, not from the latest trend.' },
+      { title: 'Responsible AI', text: 'Privacy, fairness and transparency are design requirements, not afterthoughts.' },
+    ],
+  },
+  services: {
+    kicker: 'Products & services',
+    title: 'From research to running systems',
+    intro: 'Technology offerings, software development and consulting, delivered by one team that understands the whole stack.',
+    items: [
+      { key: 'ai', title: 'AI solutions', text: 'Custom models for detection, prediction and automation, trained on your data and deployed on cloud, on-premise or edge devices.' },
+      { key: 'vision', title: '3D reconstruction & vision', text: 'Accurate 3D models, measurements and digital twins from cameras and video, for spaces, objects and people.' },
+      { key: 'multimodal', title: 'Multimodal machine learning', text: 'Systems that combine images, video, text and sensor data to reach decisions no single source can support.' },
+      { key: 'software', title: 'Software development', text: 'Web and mobile platforms, APIs and dashboards that bring AI into daily operations, in Arabic and English.' },
+      { key: 'consulting', title: 'AI consulting', text: 'Strategy, feasibility studies, data readiness and technical due diligence for organisations planning AI.' },
+      { key: 'research', title: 'Research & development', text: 'Joint R&D, prototypes and proofs of concept with universities, government and industry partners.' },
+    ],
+  },
+  edge: {
+    kicker: 'Market & value proposition',
+    title: 'Where we are strongest',
+    intro: 'Three areas of deep expertise, combined in one team and built on our own technology.',
+    pillars: [
+      {
+        key: 'ai',
+        title: 'Artificial intelligence',
+        text: 'End-to-end AI engineering: data, training, evaluation and deployment, with models we understand and can adapt.',
+        points: ['Models owned and maintained in-house', 'Deployment on cloud, on-premise or edge', 'Arabic and English from day one'],
+      },
+      {
+        key: 'vision',
+        title: '3D reconstruction',
+        text: 'Turning ordinary images and video into precise 3D understanding of spaces, objects and human motion.',
+        points: ['Digital twins of buildings and sites', 'Measurement and inspection from cameras', 'Capture of people and movement in 3D'],
+      },
+      {
+        key: 'multimodal',
+        title: 'Multimodal machine learning',
+        text: 'Learning from several kinds of data at once, the way people do, for more reliable decisions.',
+        points: ['Vision, language and sensor fusion', 'Search and analytics across media', 'Robust results in real conditions'],
+      },
+    ],
+    whyTitle: 'Why EigenTech',
+    why: [
+      { title: 'Research depth', text: 'Ph.D.-level expertise in computer vision and machine learning leads every project.' },
+      { title: 'Our own technology', text: 'Core components built in-house, so data and know-how stay with you and with the region.' },
+      { title: 'Bilingual by design', text: 'Products and interfaces built for Arabic and English users from the start.' },
+      { title: 'One accountable team', text: 'Research, engineering and delivery under one roof, from first idea to production.' },
+    ],
+    sectorsTitle: 'Built for sectors such as',
+    sectors: ['Government & smart cities', 'Construction & real estate', 'Healthcare', 'Industry & energy', 'Education', 'Culture & heritage'],
+  },
+  team: {
+    kicker: 'Leadership',
+    title: 'Led by research',
+    intro: 'EigenTech is led by a founder with doctoral-level expertise in computer engineering and computer vision.',
+    members: [
+      {
+        name: 'Dr. Ahmed Elhayek',
+        initials: 'AE',
+        role: 'Founder & Chief Executive Officer',
+        bio: 'Ph.D. in Computer Engineering with deep expertise in computer vision, 3D reconstruction and machine learning. Leads EigenTech’s research, product strategy and partnerships.',
+        tags: ['Ph.D. Computer Engineering', 'Computer vision', '3D reconstruction', 'Machine learning'],
+      },
+    ],
+    joinTitle: 'Grow with us',
+    joinText: 'We are building a team of engineers and researchers. If you want to build your own technology, write to us.',
+    joinCta: 'Send your CV',
+  },
+  contact: {
+    kicker: 'Contact',
+    title: 'Tell us what you want to build',
+    intro: 'Share a few details and we will reply within two working days.',
+    details: { phone: 'Phone', email: 'Email', web: 'Website' },
+    form: {
+      name: 'Full name',
+      email: 'Email address',
+      organisation: 'Organisation',
+      optional: 'optional',
+      interest: 'I am interested in',
+      interests: ['AI solutions', '3D reconstruction & vision', 'Multimodal machine learning', 'Software development', 'AI consulting', 'Research & partnership', 'Something else'],
+      message: 'Your message',
+      messageHint: 'What is the problem, and what would success look like?',
+      consent: 'I agree that EigenTech may use these details to reply to my enquiry.',
+      privacy: 'Privacy policy',
+      submit: 'Send enquiry',
+      sending: 'Sending…',
+      success: 'Thank you. Your message has been sent, and we will reply soon.',
+      mailtoSuccess: 'Your email app has opened with your message. Press send there to reach us.',
+      failure: 'The message could not be sent. Please try again, or email us directly at',
+      errors: {
+        name: 'Please enter your name.',
+        email: 'Please enter a valid email address, such as name@company.com.',
+        interest: 'Please choose a topic.',
+        message: 'Please write at least 20 characters so we understand your request.',
+        consent: 'Please agree so we can reply to you.',
+      },
+      summary: 'Please correct the highlighted fields.',
+    },
+  },
+  footer: {
+    tagline: 'Our own technology, for our communities.',
+    rights: 'All rights reserved.',
+    privacy: 'Privacy',
+    backToTop: 'Back to top',
+  },
+  privacy: {
+    title: 'Privacy policy',
+    updated: 'Last updated: October 2026',
+    sections: [
+      { title: 'What we collect', text: 'When you use the contact form we receive your name, email address, organisation (if given) and your message. The website itself does not use advertising cookies or tracking.' },
+      { title: 'How we use it', text: 'We use these details only to reply to your enquiry and to keep a record of our correspondence. We do not sell or share them for marketing.' },
+      { title: 'How long we keep it', text: 'Enquiries are kept for as long as needed to respond and follow up, and for no longer than two years unless a business relationship follows.' },
+      { title: 'Your rights', text: 'You can ask us to see, correct or delete your details at any time by emailing ceo@eigentech.ai.' },
+      { title: 'Preferences', text: 'Your language and light or dark theme choice are stored only in your own browser so the site remembers them.' },
+    ],
+    back: 'Back to the home page',
+  },
+};
+
+export default en;
+export type Dictionary = typeof en;
