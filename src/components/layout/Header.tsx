@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
-import { basePath } from '@/lib/site';
+import { basePath, site } from '@/lib/site';
 import { Logo } from '@/components/brand/Logo';
 import { Icon } from '@/components/ui/Icon';
 import { ThemeToggle } from './ThemeToggle';
@@ -14,10 +14,11 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
   const [scrolled, setScrolled] = useState(false);
   const home = `${basePath}/${locale}/`;
   const links = [
-    { href: `${home}#about`, label: nav.about },
     { href: `${home}#services`, label: nav.services },
+    { href: `${home}#platform`, label: nav.platform },
     { href: `${home}#edge`, label: nav.edge },
-    { href: `${home}#team`, label: nav.team },
+    { href: `${home}#industries`, label: nav.industries },
+    { href: `${home}#about`, label: nav.about },
     { href: `${home}#contact`, label: nav.contact },
   ];
 
@@ -50,7 +51,7 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
           <Logo size="sm" />
         </a>
 
-        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-0.5 xl:flex">
           {links.map((l) => (
             <a key={l.href} href={l.href} className="rounded-full px-3 py-2 text-sm font-medium text-muted transition hover:bg-surface hover:text-fg">
               {l.label}
@@ -62,6 +63,9 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
           <div className="hidden sm:block">
             <LanguageSwitcher locale={locale} label={nav.language} title={nav.languageLabel} />
           </div>
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label={nav.linkedin} title={nav.linkedin} className="hidden h-10 w-10 place-items-center rounded-full border border-line text-fg transition hover:border-bright sm:grid dark:hover:border-sky">
+            <Icon name="linkedin" className="h-[1.1rem] w-[1.1rem]" />
+          </a>
           <ThemeToggle labelDark={nav.themeDark} labelLight={nav.themeLight} />
           <a href={`${home}#contact`} className="hidden rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-accent-fg transition hover:brightness-110 md:inline-flex">
             {nav.cta}
@@ -72,14 +76,14 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? nav.close : nav.menu}
-            className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg xl:hidden"
           >
             <Icon name={open ? 'close' : 'menu'} />
           </button>
         </div>
       </div>
 
-      <div id="mobile-menu" hidden={!open} className="border-t border-line bg-bg lg:hidden">
+      <div id="mobile-menu" hidden={!open} className="border-t border-line bg-bg xl:hidden">
         <nav aria-label="Mobile" className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 sm:px-8">
           {links.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="rounded-xl px-3 py-3 text-base font-medium text-fg hover:bg-surface">
@@ -88,6 +92,9 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
           ))}
           <div className="mt-2 flex items-center gap-2 sm:hidden">
             <LanguageSwitcher locale={locale} label={nav.language} title={nav.languageLabel} />
+            <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label={nav.linkedin} className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg">
+              <Icon name="linkedin" className="h-[1.1rem] w-[1.1rem]" />
+            </a>
           </div>
         </nav>
       </div>

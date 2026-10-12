@@ -1,10 +1,11 @@
 import { isLocale, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Hero } from '@/components/sections/Hero';
-import { About } from '@/components/sections/About';
 import { Services } from '@/components/sections/Services';
+import { Platform } from '@/components/sections/Platform';
 import { Edge } from '@/components/sections/Edge';
-import { Team } from '@/components/sections/Team';
+import { Industries } from '@/components/sections/Industries';
+import { About } from '@/components/sections/About';
 import { Contact } from '@/components/sections/Contact';
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -14,10 +15,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       <Hero t={t.hero} />
-      <About t={t.about} />
       <Services t={t.services} />
+      <Platform t={t.platform} />
       <Edge t={t.edge} />
-      <Team t={t.team} />
+      <Industries t={t.industries} />
+      <About t={t.about} />
       <Contact locale={loc} t={t.contact} />
     </>
   );

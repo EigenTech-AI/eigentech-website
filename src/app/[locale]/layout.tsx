@@ -8,6 +8,7 @@ import { asset, site } from '@/lib/site';
 import { themeScript } from '@/lib/theme';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { FloatingCTA } from '@/components/layout/FloatingCTA';
 
 export const dynamicParams = false;
 
@@ -68,6 +69,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     email: site.email,
     telephone: site.phoneHref,
     founder: { '@type': 'Person', name: 'Dr. Ahmed Elhayek', jobTitle: 'Founder & CEO' },
+    sameAs: [site.linkedin],
   };
 
   return (
@@ -80,6 +82,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         <Header locale={loc} nav={dict.nav} />
         <main id="main">{children}</main>
         <Footer locale={loc} dict={dict} />
+        <FloatingCTA label={dict.floating.label} />
       </body>
     </html>
   );

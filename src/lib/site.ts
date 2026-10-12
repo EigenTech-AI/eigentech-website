@@ -7,6 +7,7 @@ export const site = {
   phoneDisplay: '+966 56 603 6956',
   phoneHref: '+966566036956',
   domain: 'www.eigentech.ai',
+  linkedin: 'https://www.linkedin.com/company/eigentech-ai/',
 } as const;
 
 export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';

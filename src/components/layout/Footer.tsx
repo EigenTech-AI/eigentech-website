@@ -16,7 +16,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <p className="text-sm leading-relaxed text-muted">{dict.footer.tagline}</p>
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm sm:grid-cols-3">
-          {(['about', 'services', 'edge', 'team', 'contact'] as const).map((k) => (
+          {(['services', 'platform', 'edge', 'industries', 'about', 'contact'] as const).map((k) => (
             <a key={k} href={`${home}#${k}`} className="text-muted transition hover:text-fg">
               {dict.nav[k]}
             </a>
@@ -29,6 +29,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <li><a href={`tel:${site.phoneHref}`} dir="ltr" className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="phone" className="h-4 w-4" />{site.phoneDisplay}</a></li>
           <li><a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="mail" className="h-4 w-4" />{site.email}</a></li>
           <li><a href={site.url} className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="globe" className="h-4 w-4" />{site.domain}</a></li>
+          <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="linkedin" className="h-4 w-4" />LinkedIn</a></li>
         </ul>
       </Container>
       <div className="border-t border-line">

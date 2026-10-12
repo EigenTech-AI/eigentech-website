@@ -1,24 +1,32 @@
+/** Numbered section header: "01 — Services", large title, introduction beside it on wide screens. */
 export function SectionHeading({
-  kicker,
+  num,
+  label,
   title,
   intro,
   id,
-  align = 'start',
+  onBlue = false,
 }: {
-  kicker: string;
+  num: string;
+  label: string;
   title: string;
   intro?: string;
   id: string;
-  align?: 'start' | 'center';
+  onBlue?: boolean;
 }) {
-  const center = align === 'center';
   return (
-    <div className={`flex max-w-2xl flex-col gap-3 ${center ? 'mx-auto items-center text-center' : ''}`}>
-      <p className="text-xs font-semibold tracking-[0.18em] text-bright uppercase dark:text-sky rtl:tracking-normal">{kicker}</p>
-      <h2 id={id} className="text-3xl leading-tight font-medium tracking-tight text-fg sm:text-4xl">
-        {title}
-      </h2>
-      {intro ? <p className="text-base leading-relaxed text-muted sm:text-lg">{intro}</p> : null}
+    <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+      <div className="flex flex-col gap-4">
+        <p className={`label-mono flex items-center gap-3 ${onBlue ? 'text-sky' : 'text-bright dark:text-sky'}`}>
+          <span className="tabular-nums">{num}</span>
+          <span aria-hidden="true" className={`h-px w-8 ${onBlue ? 'bg-sky/60' : 'bg-bright/50 dark:bg-sky/50'}`} />
+          <span>{label}</span>
+        </p>
+        <h2 id={id} className={`text-4xl leading-[1.08] font-medium tracking-tight sm:text-5xl rtl:leading-[1.3] ${onBlue ? 'text-white' : 'text-fg'}`}>
+          {title}
+        </h2>
+      </div>
+      {intro ? <p className={`max-w-xl text-base leading-relaxed sm:text-lg ${onBlue ? 'text-white/75' : 'text-muted'}`}>{intro}</p> : null}
     </div>
   );
 }

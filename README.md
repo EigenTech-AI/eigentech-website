@@ -20,19 +20,19 @@ src/
   app/
     (root)/            "/" — picks /en/ or /ar/ from the visitor's saved choice or browser language
     [locale]/          English and Arabic pages (layout sets lang, dir="rtl" for Arabic, theme, SEO)
-      page.tsx         Home: Hero, About, Services, Edge, Team, Contact
+      page.tsx         Home: Hero, Services, Platform, Edge, Industries, About, Contact
       privacy/         Privacy policy
     sitemap.ts, robots.ts
   components/
     brand/             Logo (آيجينتك always under EigenTech), HeroMark (animated mark)
-    layout/            Header (mobile menu), Footer, ThemeToggle, LanguageSwitcher
+    layout/            Header (mobile menu), Footer, FloatingCTA, ThemeToggle, LanguageSwitcher
     sections/          One file per home-page section, plus ContactForm
-    ui/                Container, SectionHeading, Button, Icon
+    ui/                Container, SectionHeading (numbered), Button, Tag, Icon
   i18n/
     config.ts          Locales and text direction
     dictionaries/      en.ts and ar.ts — ALL site text lives here
   lib/
-    site.ts            Contact details and URLs
+    site.ts            Contact details, LinkedIn and URLs
     eigen-mark.ts      Geometry of the logo mark (used by the animated hero)
     validate-contact.ts
   styles/globals.css   Brand colours, light/dark theme tokens, fonts

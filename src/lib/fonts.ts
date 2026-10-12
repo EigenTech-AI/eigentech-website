@@ -10,6 +10,8 @@ import '@fontsource/ibm-plex-sans/600.css';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
 import '@fontsource/ibm-plex-sans-arabic/500.css';
 import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
 
 /** Class names for <html>; font families are wired up as CSS variables in globals.css. */
 export const fontVars = '';
