@@ -4,6 +4,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { Tags } from '@/components/ui/Tag';
 import { toArabicDigits } from '@/components/brand/MarkGlyph';
+import { OcrShowcase } from './OcrShowcase';
 
 const line = 'stroke-bright/55 dark:stroke-sky/50';
 const soft = 'fill-bright/10 dark:fill-sky/10';
@@ -164,6 +165,7 @@ export function Projects({ t }: { t: Dictionary['projects'] }) {
             );
           })}
         </ol>
+        <OcrShowcase t={t.showcase} />
       </Container>
     </section>
   );

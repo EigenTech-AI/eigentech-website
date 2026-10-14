@@ -46,7 +46,7 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-fg">
         {nav.skip}
       </a>
-      <div className="mx-auto flex h-[4.5rem] w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
+      <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
         <a href={home} aria-label="EigenTech" className="shrink-0">
           <Logo size="sm" />
         </a>

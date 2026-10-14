@@ -37,6 +37,9 @@ src/
     validate-contact.ts
   styles/globals.css   Brand colours, light/dark theme tokens, fonts
 public/                Logo files, icons, share image, CNAME (www.eigentech.ai), 404.html
+  brand/logo-on-*.svg  Header and footer logo. The name is drawn as outlines (Safari breaks the two-colour
+                       Arabic name as live text); regenerate with ../brand-tools/make-logos.js
+  ocr/                 Manuscript pages for the Arabic OCR example (BnF, Arabe 5847)
 ```
 
 ## Editing content
