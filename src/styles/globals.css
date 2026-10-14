@@ -3,13 +3,14 @@
 /* Dark mode follows a `dark` class on <html> (set before paint by the theme script). */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Brand colours come from the EigenTech mark (Royal blue & white colourway). */
+/* Brand colours come from the EigenTech seal (Royal blue & white colourway). */
 @theme inline {
   --color-royal: #1d3d9c;
   --color-royal-deep: #142c7a;
   --color-bright: #2f5bd0;
   --color-network: #4f7fd6;
-  --color-sky: #a8d8f5;
+  --color-sky: #a8d8f5;   /* the T and "Tech" on dark grounds */
+  --color-azure: #5fa9e0; /* the T and "Tech" on light grounds */
   --color-ink: #0d1e26;
   --color-mist: #eef3f6;
   --color-night: #060c22;

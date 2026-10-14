@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { HeroMark } from '@/components/brand/HeroMark';
 import { MarkGlyph } from '@/components/brand/MarkGlyph';
+import { markLayout } from '@/lib/eigen-mark';
 
 // Eight-pointed star (khatam) outline, centred, in a 100-unit box.
 const khatam = (() => {
@@ -15,10 +16,19 @@ const khatam = (() => {
   return 'M' + pts.join(' L') + ' Z';
 })();
 
+// The seal's box inside the figure (inset 18%), and the T's centre and reach from the mark's geometry.
+const BOX = { x: 18, size: 64 };
+const ring = (() => {
+  const cx = BOX.x + BOX.size * markLayout.tx, ry = BOX.size * markLayout.tReach, rx = ry * 0.36;
+  const at = (deg: number) => [cx + rx * Math.cos(deg * Math.PI / 180), 50 - ry * Math.sin(deg * Math.PI / 180)].map((n) => n.toFixed(2));
+  const [ax, ay] = at(118), [bx, by] = at(52);
+  // the label sits outside the seal's circle, up and to the right of the T
+  return { cx, rx, ry, arc: `M${ax} ${ay} A${rx.toFixed(2)} ${ry.toFixed(2)} 0 0 1 ${bx} ${by}`, head: `M${bx} ${by} l-2.4 -0.9 M${bx} ${by} l-0.4 2.4`, label: [76, 20.5] };
+})();
+
 /**
- * The mark on its "eigen axis": the arrow's axis runs through the whole figure, and tilted rings show the
- * network's rotation around it. Rotating about an axis leaves that axis unchanged: Rv = v, with λ = 1.
- * Positions follow the mark's geometry (mark box = 64% of the figure, axis at mid-height).
+ * The seal on its "eigen axis": the arrow's axis runs through the whole figure, and tilted rings show the
+ * T network turning around it. Rotating about an axis leaves that axis unchanged: Rv = v, with λ = 1.
  */
 function EigenAxis({ t }: { t: Dictionary['hero']['axis'] }) {
   return (
@@ -27,14 +37,14 @@ function EigenAxis({ t }: { t: Dictionary['hero']['axis'] }) {
       {/* eigen axis */}
       <line x1="1" y1="50" x2="99" y2="50" className="stroke-bright/50 dark:stroke-sky/45" strokeWidth={0.3} strokeDasharray="1.4 1.2" />
       <path d="M99 50 l-2.2 -1.3 M99 50 l-2.2 1.3" className="stroke-bright/60 dark:stroke-sky/55" strokeWidth={0.35} strokeLinecap="round" />
-      {/* rotation rings around the network */}
-      <ellipse cx="64" cy="50" rx="11.5" ry="29" fill="none" className="stroke-bright/35 dark:stroke-sky/30" strokeWidth={0.3} />
-      <ellipse cx="73" cy="50" rx="9" ry="23.5" fill="none" className="stroke-bright/25 dark:stroke-sky/22" strokeWidth={0.25} strokeDasharray="1 1" />
-      <path d="M57.5 25.5 A11.5 29 0 0 1 72 27.5" fill="none" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
-      <path d="M72 27.5 l-2.6 -0.2 M72 27.5 l-1.2 2.2" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
+      {/* rotation rings around the T */}
+      <ellipse cx={ring.cx} cy="50" rx={ring.rx} ry={ring.ry} fill="none" className="stroke-bright/35 dark:stroke-sky/30" strokeWidth={0.3} />
+      <ellipse cx={ring.cx} cy="50" rx={ring.rx * 0.62} ry={ring.ry * 0.78} fill="none" className="stroke-bright/25 dark:stroke-sky/22" strokeWidth={0.25} strokeDasharray="1 1" />
+      <path d={ring.arc} fill="none" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
+      <path d={ring.head} className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
       <g className="fill-muted" fontSize="2.6" fontFamily="var(--font-display)">
-        <text x="76" y="22.5">{t.rotation}</text>
-        <text x="80" y="47.6">{t.equation}</text>
+        <text x={ring.label[0]} y={ring.label[1]}>{t.rotation}</text>
+        <text x="85" y="47.6">{t.equation}</text>
         <text x="2" y="47.6">{t.lambda}</text>
       </g>
     </svg>

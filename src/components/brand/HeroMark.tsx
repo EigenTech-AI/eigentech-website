@@ -4,10 +4,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { markStatic, renderNetwork, type MarkVariant } from '@/lib/eigen-mark';
 
 const ID = 'etHero';
+const SWING = 0.55; // radians either side of upright
 
 /**
- * The EigenTech mark with its neural network turning around the arrow axis.
- * The hilal and the arrow never move: the axis of a rotation is its eigenvector.
+ * The EigenTech seal with its T network rocking about the arrow's axis.
+ * The ring, hilal and arrow never move: the axis of a rotation is its eigenvector.
  */
 export function HeroMark({ label }: { label: string }) {
   const [variant, setVariant] = useState<MarkVariant>('dark');
@@ -31,11 +32,11 @@ export function HeroMark({ label }: { label: string }) {
     if (!g) return;
     g.innerHTML = renderNetwork(0, variant, ID);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let raf = 0, last = performance.now(), theta = 0, visible = true;
+    let raf = 0, last = performance.now(), phase = 0, visible = true;
     const tick = (now: number) => {
-      theta = (theta + (now - last) * 0.00045) % (Math.PI * 2);
+      phase = (phase + (now - last) * 0.0009) % (Math.PI * 2);
       last = now;
-      g.innerHTML = renderNetwork(theta, variant, ID);
+      g.innerHTML = renderNetwork(SWING * Math.sin(phase), variant, ID);
       raf = requestAnimationFrame(tick);
     };
     const start = () => { if (!raf && visible && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(tick); } };
