@@ -2,19 +2,20 @@
  * EigenTech seal geometry (royal blue & white colourway).
  * A full circle holds the mark. The calligraphic hilal opens like a C and the arrow is its middle bar: the E.
  * A neural network drawn as the letter T sends the arrow: two fully connected layers form the crossbar,
- * and the output neuron sits on the stem, on the arrow's axis.
- * The network can turn about that axis (x): the axis of a rotation is its eigenvector, so the arrow never moves.
- * Output is plain SVG markup so it can be animated without re-rendering React on every frame.
+ * and the output neuron sits on the stem.
+ * In the hero, the network turns about its vertical axis (the stem). Every point on that axis stays where it is:
+ * the axis of a rotation is its eigenvector. The T stays upright, so it always reads as a T.
  */
 
 export type MarkVariant = 'dark' | 'light';
 
 const S = 100;
 const DEG = Math.PI / 180;
-const F = 6; // perspective distance; the T is seen face-on
+const LOGO_F = 6; // perspective of the original mark, which fixes where the output neuron sits
+const F = 4.5; // the hero's perspective: a little stronger, so the turning T shows its depth
 
 type P3 = [number, number, number];
-type Node = { p: P3; r: number; out: boolean };
+type Node = { p: P3; r: number };
 type Edge = [number, number, boolean];
 
 const MOON = { R: 1, r: 0.82, d: 0.25, sx: 0.75 };
@@ -29,8 +30,8 @@ const T = {
   stem: [0, -0.24, -0.48, -0.72],
   r: 0.066,
   rOut: 0.11,
-  zOut: 0.18,
-  depth: [-0.15, 0.15], // the crossbar's two layers sit one behind the other, so the T has depth as it turns
+  zOut: 0.18, // depth of the stem, and of the axis the network turns about
+  depth: [-0.15, 0.15], // the crossbar's two layers sit one behind the other
   edgeW: 0.016,
   strokeW: 0.034,
 };
@@ -38,7 +39,7 @@ const T = {
 const T_CX = (() => {
   const c = Math.cos(10 * DEG), s = Math.sin(10 * DEG);
   const X = 0.9 * c + T.zOut * s, Z = -0.9 * s + T.zOut * c;
-  return X * (F / (F - Z)) * ((F - T.zOut) / F);
+  return X * (LOGO_F / (LOGO_F - Z)) * ((F - T.zOut) / F);
 })();
 
 const f = (n: number) => (Math.round(n * 100) / 100).toString();
@@ -57,26 +58,20 @@ function palette(v: MarkVariant) {
   return {
     t,
     sphere: [lt(t, 0.7), lt(t, 0.2), t, dk(t, 0.3)],
-    eMin: light ? 0.25 : 0.22,
-    eMax: light ? 0.6 : 0.55,
+    faint: light ? 0.42 : 0.38, // opacity of the thin, fully connecting links
     glow: !light,
     e: light ? ['#2F5BD0', '#142C7A'] : ['#FFFFFF', '#DCE6F7'],
   };
 }
 
-/** The T network, turned by theta about the arrow's axis (the line y = 0 through the output neuron). */
-function network(theta: number) {
+/** The T network in its resting pose (same structure for every frame; only positions change). */
+const NET = (() => {
   const nodes: Node[] = [], edges: Edge[] = [];
-  const c = Math.cos(theta), s = Math.sin(theta);
-  const add = (x: number, y: number, z: number, r: number, out = false) => {
-    const zc = z - T.zOut;
-    nodes.push({ p: [x, y * c - zc * s, y * s + zc * c + T.zOut], r, out });
-    return nodes.length - 1;
-  };
+  const add = (x: number, y: number, z: number, r: number) => { nodes.push({ p: [x, y, z], r }); return nodes.length - 1; };
   const bulge = (x: number) => 0.18 * (1 - Math.pow((x - T_CX) / 0.42, 2)); // crossbar curves toward the viewer
   const xs = T.xs.map((k) => T_CX + k * T.dx);
   const layers = T.rows.map((y, li) => xs.map((x) => add(x, y, bulge(x) + T.depth[li], T.r)));
-  const stem = T.stem.map((y) => add(T_CX, y, T.zOut - 0.08 * Math.abs(y), y === 0 ? T.rOut : T.r, y === 0));
+  const stem = T.stem.map((y) => add(T_CX, y, T.zOut, y === 0 ? T.rOut : T.r)); // on the axis, so the stem never moves
   const link = (a: number, b: number, strong: boolean) => edges.push([a, b, strong]);
   layers.forEach((L) => L.slice(1).forEach((b, i) => link(L[i], b, true)));
   layers[0].forEach((a) => layers[1].forEach((b) => link(a, b, false))); // the two layers, fully connected
@@ -85,45 +80,55 @@ function network(theta: number) {
   stem.slice(1).forEach((b, i) => link(stem[i], b, true));
   last.forEach((a) => { if (a !== mid) link(a, stem[0], false); });
   return { nodes, edges, outIndex: stem[0] };
-}
+})();
 
 function project(p: P3) {
   const k = F / (F - p[2]);
   return { x: p[0] * k, y: p[1] * k, z: p[2], k };
 }
 
+// Parts turning away from the viewer fade a little: the same colour, seen through more depth.
+const fade = (z: number) => Math.max(0.4, Math.min(1, 0.95 + 0.6 * (z - T.zOut)));
+
+export type NetworkFrame = {
+  colour: string;
+  lines: { x1: number; y1: number; x2: number; y2: number; w: number; op: number; strong: boolean }[];
+  dots: { cx: number; cy: number; r: number; op: number; z: number }[];
+};
+
+/** Positions of every link and neuron with the network turned by theta about its vertical axis (the stem). */
+export function networkFrame(theta: number, v: MarkVariant): NetworkFrame {
+  const pal = palette(v), c = Math.cos(theta), s = Math.sin(theta);
+  const P = NET.nodes.map(({ p: [x, y, z] }) => {
+    const dx = x - T_CX, dz = z - T.zOut;
+    return project([T_CX + dx * c + dz * s, y, T.zOut - dx * s + dz * c]);
+  });
+  const lines = NET.edges.map(([i, j, strong]) => {
+    const a = P[i], b = P[j], z = (a.z + b.z) / 2;
+    return {
+      x1: a.x * S, y1: -a.y * S, x2: b.x * S, y2: -b.y * S,
+      w: (strong ? T.strokeW : T.edgeW) * S * (a.k + b.k) / 2,
+      op: (strong ? 1 : pal.faint) * fade(z),
+      strong,
+    };
+  });
+  const dots = P.map((p, i) => ({ cx: p.x * S, cy: -p.y * S, r: NET.nodes[i].r * S * p.k, op: fade(p.z), z: p.z }));
+  return { colour: pal.t, lines, dots };
+}
+
 const sphereGrad = (id: string, c: string[]) =>
   `<radialGradient id="${id}" cx=".5" cy=".5" r=".5" fx=".36" fy=".32"><stop offset="0" stop-color="${c[0]}"/><stop offset=".32" stop-color="${c[1]}"/><stop offset=".78" stop-color="${c[2]}"/><stop offset="1" stop-color="${c[3]}"/></radialGradient>`;
 
-// Parts turning away from the viewer fade a little: the same colour, seen through more depth.
-const fade = (z: number) => Math.max(0.45, Math.min(1, 0.9 + 0.55 * (z - T.zOut)));
-
-/**
- * Network markup (links + neurons) at rotation theta, split by depth: `back` lies behind the hilal and arrow
- * (z < 0) and is drawn under them, `front` is drawn over them. Uses gradients defined by markStatic().
- */
+/** Network markup at rotation theta (first paint, and the still image for reduced motion). Uses markStatic()'s gradients. */
 export function renderNetwork(theta: number, v: MarkVariant, id: string) {
-  const pal = palette(v), net = network(theta);
-  const P = net.nodes.map((n) => project(n.p));
-  const zs = P.map((p) => p.z), zmin = Math.min(...zs), zmax = Math.max(...zs);
-  const dn = (z: number) => (zmax - zmin < 1e-6 ? 1 : (z - zmin) / (zmax - zmin));
-  const out = { back: '', front: '' };
-  const put = (z: number, markup: string) => { if (z < 0) out.back += markup; else out.front += markup; };
-  net.edges
-    .map(([i, j, st]) => ({ i, j, st, z: (P[i].z + P[j].z) / 2 }))
-    .sort((a, b) => Number(a.st) - Number(b.st) || a.z - b.z)
-    .forEach((e) => {
-      const a = P[e.i], b = P[e.j];
-      const op = (e.st ? 1 : pal.eMin + (pal.eMax - pal.eMin) * dn(e.z)) * fade(e.z);
-      const w = (e.st ? T.strokeW : T.edgeW) * S * (a.k + b.k) / 2;
-      put(e.z, `<line x1="${f(a.x * S)}" y1="${f(-a.y * S)}" x2="${f(b.x * S)}" y2="${f(-b.y * S)}" stroke="${pal.t}" stroke-opacity="${f(op)}" stroke-width="${f(w)}" stroke-linecap="round"/>`);
-    });
-  P.map((p, i) => ({ p, i }))
-    .sort((a, b) => a.p.z - b.p.z)
-    .forEach(({ p, i }) => {
-      put(p.z, `<circle cx="${f(p.x * S)}" cy="${f(-p.y * S)}" r="${f(net.nodes[i].r * S * p.k)}" fill="url(#${id}k)" opacity="${f(fade(p.z))}"/>`);
-    });
-  return out;
+  const fr = networkFrame(theta, v);
+  const line = (l: NetworkFrame['lines'][number]) =>
+    `<line x1="${f(l.x1)}" y1="${f(l.y1)}" x2="${f(l.x2)}" y2="${f(l.y2)}" stroke="${fr.colour}" stroke-opacity="${f(l.op)}" stroke-width="${f(l.w)}" stroke-linecap="round"/>`;
+  return (
+    fr.lines.filter((l) => !l.strong).map(line).join('') +
+    fr.lines.filter((l) => l.strong).map(line).join('') +
+    [...fr.dots].sort((a, b) => a.z - b.z).map((d) => `<circle cx="${f(d.cx)}" cy="${f(d.cy)}" r="${f(d.r)}" fill="url(#${id}k)" opacity="${f(d.op)}"/>`).join('')
+  );
 }
 
 function moonGeometry() {
@@ -134,22 +139,25 @@ function moonGeometry() {
 }
 
 function arrowPath() {
-  const net = network(0), op = project(net.nodes[net.outIndex].p);
+  const op = project(NET.nodes[NET.outIndex].p);
   const x0 = op.x - (T.rOut * op.k + GAP), xt = TIP_X, dir = Math.sign(xt - x0);
   const xb = xt - dir * ARROW.len, xw = xb - dir * ARROW.back;
   const pts: [number, number][] = [[x0, ARROW.h0], [xb, ARROW.h1], [xw, ARROW.ah], [xt, 0], [xw, -ARROW.ah], [xb, -ARROW.h1], [x0, -ARROW.h0]];
   return { d: 'M' + pts.map(([x, y]) => `${f(x * S)} ${f(-y * S)}`).join(' L') + ' Z', out: op };
 }
 
-/** Where the figure sits in its viewBox, as fractions, so decorations can line up with the T. */
+/** Where the T sits in the figure, as fractions of the viewBox, so decorations can line up with it. */
 export const markLayout = (() => {
-  const half = RING.r + RING.w / 2, side = 2 * half * 1.04, vx = RING.cx - side / 2;
-  const tTop = T.rows[0] + T.r, tBottom = T.stem[T.stem.length - 1] - T.r;
+  const half = RING.r + RING.w / 2, side = 2 * half * 1.04, vx = RING.cx - side / 2, vy = -side / 2;
+  const k = F / (F - T.zOut);
+  const fx = (x: number) => (x * k * S - vx) / side, fy = (y: number) => (-y * k * S - vy) / side;
   return {
     side,
     vx,
-    tx: (T_CX * (F / (F - T.zOut)) * S - vx) / side, // T's centre on screen, from the left
-    tReach: (Math.max(tTop, -tBottom) * S + 8) / side, // farthest neuron from the axis
+    tx: fx(T_CX), // the vertical axis (the stem)
+    barY: fy((T.rows[0] + T.rows[1]) / 2), // middle of the crossbar
+    barHalf: ((2 * T.dx + T.r) * k * S) / side, // half the crossbar's width
+    stemY: fy(-0.5), // lower part of the stem
   };
 })();
 

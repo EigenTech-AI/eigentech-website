@@ -1,20 +1,21 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { markStatic, renderNetwork, type MarkVariant } from '@/lib/eigen-mark';
+import { markStatic, networkFrame, renderNetwork, type MarkVariant } from '@/lib/eigen-mark';
 
 const ID = 'etHero';
-const SPEED = 0.0005; // radians per millisecond: one full turn in about 12.5 seconds
+const SPEED = (Math.PI * 2) / 16000; // one full turn every 16 seconds
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const r2 = (n: number) => (Math.round(n * 100) / 100).toString();
 
 /**
- * The EigenTech seal with its T network turning around the x axis, the arrow's axis.
- * The ring, hilal and arrow never move: the axis of a rotation is its eigenvector.
- * The half of the network behind the hilal and arrow is drawn under them, the near half over them.
+ * The EigenTech seal with its T network turning about its vertical axis (the stem).
+ * The ring, hilal, arrow and stem never move: the axis of a rotation is its eigenvector.
+ * The links and neurons are created once and only moved each frame, which keeps the motion smooth on phones.
  */
 export function HeroMark({ label }: { label: string }) {
   const [variant, setVariant] = useState<MarkVariant>('dark');
-  const backRef = useRef<SVGGElement>(null);
-  const frontRef = useRef<SVGGElement>(null);
+  const netRef = useRef<SVGGElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const stat = useMemo(() => markStatic(variant, ID), [variant]);
   const initial = useMemo(() => renderNetwork(0, variant, ID), [variant]);
@@ -30,18 +31,51 @@ export function HeroMark({ label }: { label: string }) {
 
   // Turn only while visible, and not at all for reduced-motion users.
   useEffect(() => {
-    const back = backRef.current, front = frontRef.current;
-    if (!back || !front) return;
+    const g = netRef.current;
+    if (!g || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Build the network's elements once: thin links, then strong links, then neurons on top.
+    const first = networkFrame(0, variant);
+    const layer = () => g.appendChild(document.createElementNS(SVG_NS, 'g'));
+    g.textContent = '';
+    const thin = layer(), strong = layer(), dots = layer();
+    const lines = first.lines.map((l) => {
+      const el = document.createElementNS(SVG_NS, 'line');
+      el.setAttribute('stroke', first.colour);
+      el.setAttribute('stroke-linecap', 'round');
+      (l.strong ? strong : thin).appendChild(el);
+      return el;
+    });
+    const circles = first.dots.map(() => {
+      const el = document.createElementNS(SVG_NS, 'circle');
+      el.setAttribute('fill', `url(#${ID}k)`);
+      dots.appendChild(el);
+      return el;
+    });
+    let order = '';
     const draw = (theta: number) => {
-      const net = renderNetwork(theta, variant, ID);
-      back.innerHTML = net.back;
-      front.innerHTML = net.front;
+      const fr = networkFrame(theta, variant);
+      fr.lines.forEach((l, i) => {
+        const el = lines[i];
+        el.setAttribute('x1', r2(l.x1)); el.setAttribute('y1', r2(l.y1));
+        el.setAttribute('x2', r2(l.x2)); el.setAttribute('y2', r2(l.y2));
+        el.setAttribute('stroke-width', r2(l.w)); el.setAttribute('stroke-opacity', r2(l.op));
+      });
+      fr.dots.forEach((d, i) => {
+        const el = circles[i];
+        el.setAttribute('cx', r2(d.cx)); el.setAttribute('cy', r2(d.cy));
+        el.setAttribute('r', r2(d.r)); el.setAttribute('opacity', r2(d.op));
+      });
+      // nearer neurons in front: reorder only when the depth order actually changes
+      const idx = fr.dots.map((_, i) => i).sort((a, b) => fr.dots[a].z - fr.dots[b].z);
+      const key = idx.join(',');
+      if (key !== order) { order = key; idx.forEach((i) => dots.appendChild(circles[i])); }
     };
     draw(0);
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     let raf = 0, last = performance.now(), theta = 0, visible = true;
     const tick = (now: number) => {
-      theta = (theta + (now - last) * SPEED) % (Math.PI * 2);
+      theta = (theta + Math.min(now - last, 50) * SPEED) % (Math.PI * 2); // a long pause never makes it jump
       last = now;
       draw(theta);
       raf = requestAnimationFrame(tick);
@@ -60,10 +94,8 @@ export function HeroMark({ label }: { label: string }) {
     <div ref={wrapRef} className="relative aspect-square w-full" dir="ltr">
       <svg viewBox={stat.viewBox} role="img" aria-label={label} className="h-full w-full">
         <defs dangerouslySetInnerHTML={{ __html: stat.defs }} />
-        <g dangerouslySetInnerHTML={{ __html: stat.glow }} />
-        <g ref={backRef} dangerouslySetInnerHTML={{ __html: initial.back }} />
-        <g dangerouslySetInnerHTML={{ __html: stat.body }} />
-        <g ref={frontRef} dangerouslySetInnerHTML={{ __html: initial.front }} />
+        <g dangerouslySetInnerHTML={{ __html: stat.glow + stat.body }} />
+        <g ref={netRef} dangerouslySetInnerHTML={{ __html: initial }} />
       </svg>
     </div>
   );

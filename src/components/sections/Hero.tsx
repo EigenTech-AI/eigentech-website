@@ -16,36 +16,42 @@ const khatam = (() => {
   return 'M' + pts.join(' L') + ' Z';
 })();
 
-// The seal's box inside the figure (inset 18%), and the T's centre and reach from the mark's geometry.
+// The seal's box inside the figure (inset 18%); the T's axis, crossbar and stem come from the mark's geometry.
 const BOX = { x: 18, size: 64 };
-const ring = (() => {
-  const cx = BOX.x + BOX.size * markLayout.tx, ry = BOX.size * markLayout.tReach, rx = ry * 0.36;
-  const at = (deg: number) => [cx + rx * Math.cos(deg * Math.PI / 180), 50 - ry * Math.sin(deg * Math.PI / 180)].map((n) => n.toFixed(2));
-  const [ax, ay] = at(118), [bx, by] = at(52);
-  // the label sits outside the seal's circle, up and to the right of the T
-  return { cx, rx, ry, arc: `M${ax} ${ay} A${rx.toFixed(2)} ${ry.toFixed(2)} 0 0 1 ${bx} ${by}`, head: `M${bx} ${by} l-2.4 -0.9 M${bx} ${by} l-0.4 2.4`, label: [76, 20.5] };
+const axis = (() => {
+  const x = BOX.x + BOX.size * markLayout.tx, barY = BOX.x + BOX.size * markLayout.barY, stemY = BOX.x + BOX.size * markLayout.stemY;
+  const rx = BOX.size * markLayout.barHalf * 1.18, ry = rx * 0.26;
+  // an arc along the front of the ring shows the direction of the turn
+  const at = (deg: number) => [x + rx * Math.cos((deg * Math.PI) / 180), barY - ry * Math.sin((deg * Math.PI) / 180)];
+  const [ax, ay] = at(215), [bx, by] = at(325);
+  const tx = -Math.sin((325 * Math.PI) / 180) * rx, ty = -Math.cos((325 * Math.PI) / 180) * ry, tl = Math.hypot(tx, ty);
+  const head = [28, -28].map((d) => {
+    const c = Math.cos((d * Math.PI) / 180), s = Math.sin((d * Math.PI) / 180), ux = tx / tl, uy = ty / tl;
+    return `M${bx.toFixed(2)} ${by.toFixed(2)} l${(-2.2 * (ux * c - uy * s)).toFixed(2)} ${(-2.2 * (ux * s + uy * c)).toFixed(2)}`;
+  }).join(' ');
+  return { x, barY, stemY, rx, ry, arc: `M${ax.toFixed(2)} ${ay.toFixed(2)} A${rx.toFixed(2)} ${ry.toFixed(2)} 0 0 0 ${bx.toFixed(2)} ${by.toFixed(2)}`, head };
 })();
 
 /**
- * The seal on its "eigen axis": the arrow's axis runs through the whole figure, and tilted rings show the
- * T network turning around it. Rotating about an axis leaves that axis unchanged: Rv = v, with λ = 1.
+ * The seal on its "eigen axis": the T network turns about its vertical axis (the stem), shown by a ring around
+ * the crossbar. Every point on the axis stays where it is: Rv = v, with λ = 1.
  */
 function EigenAxis({ t }: { t: Dictionary['hero']['axis'] }) {
   return (
     <svg viewBox="0 0 100 100" aria-hidden="true" className="absolute inset-0 h-full w-full overflow-visible" direction="ltr">
       <path d={khatam} fill="none" className="stroke-bright/15 dark:stroke-sky/12" strokeWidth={0.35} />
-      {/* eigen axis */}
-      <line x1="1" y1="50" x2="99" y2="50" className="stroke-bright/50 dark:stroke-sky/45" strokeWidth={0.3} strokeDasharray="1.4 1.2" />
-      <path d="M99 50 l-2.2 -1.3 M99 50 l-2.2 1.3" className="stroke-bright/60 dark:stroke-sky/55" strokeWidth={0.35} strokeLinecap="round" />
-      {/* rotation rings around the T */}
-      <ellipse cx={ring.cx} cy="50" rx={ring.rx} ry={ring.ry} fill="none" className="stroke-bright/35 dark:stroke-sky/30" strokeWidth={0.3} />
-      <ellipse cx={ring.cx} cy="50" rx={ring.rx * 0.62} ry={ring.ry * 0.78} fill="none" className="stroke-bright/25 dark:stroke-sky/22" strokeWidth={0.25} strokeDasharray="1 1" />
-      <path d={ring.arc} fill="none" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
-      <path d={ring.head} className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
+      {/* eigen axis: vertical, through the stem */}
+      <line x1={axis.x} y1="4" x2={axis.x} y2="96" className="stroke-bright/50 dark:stroke-sky/45" strokeWidth={0.3} strokeDasharray="1.4 1.2" />
+      <path d={`M${axis.x} 4 l-1.3 2.2 M${axis.x} 4 l1.3 2.2`} className="stroke-bright/60 dark:stroke-sky/55" strokeWidth={0.35} strokeLinecap="round" />
+      {/* rotation rings around the crossbar and the stem */}
+      <ellipse cx={axis.x} cy={axis.barY} rx={axis.rx} ry={axis.ry} fill="none" className="stroke-bright/35 dark:stroke-sky/30" strokeWidth={0.3} />
+      <ellipse cx={axis.x} cy={axis.stemY} rx={axis.rx * 0.45} ry={axis.ry * 0.45} fill="none" className="stroke-bright/25 dark:stroke-sky/22" strokeWidth={0.25} strokeDasharray="1 1" />
+      <path d={axis.arc} fill="none" className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
+      <path d={axis.head} className="stroke-bright dark:stroke-sky" strokeWidth={0.45} strokeLinecap="round" />
       <g className="fill-muted" fontSize="2.6" fontFamily="var(--font-display)">
-        <text x={ring.label[0]} y={ring.label[1]}>{t.rotation}</text>
-        <text x="85" y="47.6">{t.equation}</text>
-        <text x="2" y="47.6">{t.lambda}</text>
+        <text x="83" y="41">{t.rotation}</text>
+        <text x={axis.x + 1.8} y="7.5">{t.equation}</text>
+        <text x={axis.x + 1.8} y="95">{t.lambda}</text>
       </g>
     </svg>
   );

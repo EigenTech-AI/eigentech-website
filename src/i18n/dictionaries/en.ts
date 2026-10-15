@@ -37,8 +37,8 @@ const en = {
     ],
     axis: { axis: 'Axis = eigenvector', lambda: 'λ = 1', rotation: 'R(θ)', equation: 'Rv = v' },
     markLabel:
-      'EigenTech seal: a crescent and an arrow form the letter E, and a neural network forms the letter T, turning around the arrow axis.',
-    markCaption: 'The network turns. The arrow, its eigenvector, holds its direction.',
+      'EigenTech seal: a crescent and an arrow form the letter E, and a neural network forms the letter T, turning around its vertical axis.',
+    markCaption: 'The network turns about its stem. That axis, its eigenvector, holds its direction.',
   },
   services: {
     num: '01',
