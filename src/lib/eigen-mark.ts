@@ -32,6 +32,7 @@ const T = {
   rOut: 0.11,
   zOut: 0.18, // depth of the stem, and of the axis the network turns about
   depth: [-0.15, 0.15], // the crossbar's two layers sit one behind the other
+  back: 0.24, // a third crossbar row and a second stem column sit this far behind the front ones
   edgeW: 0.016,
   strokeW: 0.034,
 };
@@ -64,21 +65,28 @@ function palette(v: MarkVariant) {
   };
 }
 
-/** The T network in its resting pose (same structure for every frame; only positions change). */
+/**
+ * The T network in its resting pose (same structure for every frame; only positions change).
+ * Seen from the front it is the T. Behind the crossbar's lower row sits a third row, and behind the stem a second
+ * column, joined to the front ones like the rungs of a ladder: turned side-on, the T becomes a 3D lattice.
+ */
 const NET = (() => {
   const nodes: Node[] = [], edges: Edge[] = [];
   const add = (x: number, y: number, z: number, r: number) => { nodes.push({ p: [x, y, z], r }); return nodes.length - 1; };
   const bulge = (x: number) => 0.18 * (1 - Math.pow((x - T_CX) / 0.42, 2)); // crossbar curves toward the viewer
   const xs = T.xs.map((k) => T_CX + k * T.dx);
-  const layers = T.rows.map((y, li) => xs.map((x) => add(x, y, bulge(x) + T.depth[li], T.r)));
+  const [top, lower] = T.rows.map((y, li) => xs.map((x) => add(x, y, bulge(x) + T.depth[li], T.r)));
+  const behind = xs.map((x) => add(x, T.rows[1], bulge(x) + T.depth[1] - T.back, T.r)); // behind the lower row
   const stem = T.stem.map((y) => add(T_CX, y, T.zOut, y === 0 ? T.rOut : T.r)); // on the axis, so the stem never moves
+  // behind the stem, starting one step below the arrow so it never crosses the arrow or the hilal's tips as it turns
+  const stemBack = T.stem.slice(1).map((y) => add(T_CX, y, T.zOut - T.back, T.r));
   const link = (a: number, b: number, strong: boolean) => edges.push([a, b, strong]);
-  layers.forEach((L) => L.slice(1).forEach((b, i) => link(L[i], b, true)));
-  layers[0].forEach((a) => layers[1].forEach((b) => link(a, b, false))); // the two layers, fully connected
-  const last = layers[1], mid = last[2];
-  link(mid, stem[0], true);
-  stem.slice(1).forEach((b, i) => link(stem[i], b, true));
-  last.forEach((a) => { if (a !== mid) link(a, stem[0], false); });
+  const chain = (ids: number[]) => ids.slice(1).forEach((b, i) => link(ids[i], b, true));
+  [top, lower, behind, stem, stemBack].forEach(chain);
+  top.forEach((a) => lower.forEach((b) => link(a, b, false))); // the top two layers, fully connected
+  lower.forEach((a, i) => link(a, behind[i], true)); // rungs into depth
+  stemBack.forEach((b, i) => link(stem[i + 1], b, true));
+  for (const row of [lower, behind]) row.forEach((a, i) => link(a, stem[0], i === 2)); // both rows feed the output neuron
   return { nodes, edges, outIndex: stem[0] };
 })();
 
