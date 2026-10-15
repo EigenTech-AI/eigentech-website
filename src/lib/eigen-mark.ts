@@ -30,6 +30,7 @@ const T = {
   r: 0.066,
   rOut: 0.11,
   zOut: 0.18,
+  depth: [-0.15, 0.15], // the crossbar's two layers sit one behind the other, so the T has depth as it turns
   edgeW: 0.016,
   strokeW: 0.034,
 };
@@ -74,7 +75,7 @@ function network(theta: number) {
   };
   const bulge = (x: number) => 0.18 * (1 - Math.pow((x - T_CX) / 0.42, 2)); // crossbar curves toward the viewer
   const xs = T.xs.map((k) => T_CX + k * T.dx);
-  const layers = T.rows.map((y) => xs.map((x) => add(x, y, bulge(x), T.r)));
+  const layers = T.rows.map((y, li) => xs.map((x) => add(x, y, bulge(x) + T.depth[li], T.r)));
   const stem = T.stem.map((y) => add(T_CX, y, T.zOut - 0.08 * Math.abs(y), y === 0 ? T.rOut : T.r, y === 0));
   const link = (a: number, b: number, strong: boolean) => edges.push([a, b, strong]);
   layers.forEach((L) => L.slice(1).forEach((b, i) => link(L[i], b, true)));
@@ -94,28 +95,35 @@ function project(p: P3) {
 const sphereGrad = (id: string, c: string[]) =>
   `<radialGradient id="${id}" cx=".5" cy=".5" r=".5" fx=".36" fy=".32"><stop offset="0" stop-color="${c[0]}"/><stop offset=".32" stop-color="${c[1]}"/><stop offset=".78" stop-color="${c[2]}"/><stop offset="1" stop-color="${c[3]}"/></radialGradient>`;
 
-/** Network markup (links + neurons) at rotation theta. Uses gradients defined by markStatic(). */
+// Parts turning away from the viewer fade a little: the same colour, seen through more depth.
+const fade = (z: number) => Math.max(0.45, Math.min(1, 0.9 + 0.55 * (z - T.zOut)));
+
+/**
+ * Network markup (links + neurons) at rotation theta, split by depth: `back` lies behind the hilal and arrow
+ * (z < 0) and is drawn under them, `front` is drawn over them. Uses gradients defined by markStatic().
+ */
 export function renderNetwork(theta: number, v: MarkVariant, id: string) {
   const pal = palette(v), net = network(theta);
   const P = net.nodes.map((n) => project(n.p));
   const zs = P.map((p) => p.z), zmin = Math.min(...zs), zmax = Math.max(...zs);
   const dn = (z: number) => (zmax - zmin < 1e-6 ? 1 : (z - zmin) / (zmax - zmin));
-  let o = '';
+  const out = { back: '', front: '' };
+  const put = (z: number, markup: string) => { if (z < 0) out.back += markup; else out.front += markup; };
   net.edges
     .map(([i, j, st]) => ({ i, j, st, z: (P[i].z + P[j].z) / 2 }))
     .sort((a, b) => Number(a.st) - Number(b.st) || a.z - b.z)
     .forEach((e) => {
       const a = P[e.i], b = P[e.j];
-      const op = e.st ? 1 : pal.eMin + (pal.eMax - pal.eMin) * dn(e.z);
+      const op = (e.st ? 1 : pal.eMin + (pal.eMax - pal.eMin) * dn(e.z)) * fade(e.z);
       const w = (e.st ? T.strokeW : T.edgeW) * S * (a.k + b.k) / 2;
-      o += `<line x1="${f(a.x * S)}" y1="${f(-a.y * S)}" x2="${f(b.x * S)}" y2="${f(-b.y * S)}" stroke="${pal.t}" stroke-opacity="${f(op)}" stroke-width="${f(w)}" stroke-linecap="round"/>`;
+      put(e.z, `<line x1="${f(a.x * S)}" y1="${f(-a.y * S)}" x2="${f(b.x * S)}" y2="${f(-b.y * S)}" stroke="${pal.t}" stroke-opacity="${f(op)}" stroke-width="${f(w)}" stroke-linecap="round"/>`);
     });
   P.map((p, i) => ({ p, i }))
     .sort((a, b) => a.p.z - b.p.z)
     .forEach(({ p, i }) => {
-      o += `<circle cx="${f(p.x * S)}" cy="${f(-p.y * S)}" r="${f(net.nodes[i].r * S * p.k)}" fill="url(#${id}k)"/>`;
+      put(p.z, `<circle cx="${f(p.x * S)}" cy="${f(-p.y * S)}" r="${f(net.nodes[i].r * S * p.k)}" fill="url(#${id}k)" opacity="${f(fade(p.z))}"/>`);
     });
-  return o;
+  return out;
 }
 
 function moonGeometry() {
@@ -145,7 +153,7 @@ export const markLayout = (() => {
   };
 })();
 
-/** Everything that does not move: viewBox, gradients, glows, ring, hilal and arrow. */
+/** Everything that does not move: viewBox, gradients, glows (under everything), and the ring, hilal and arrow. */
 export function markStatic(v: MarkVariant, id: string) {
   const pal = palette(v), moon = moonGeometry(), arrow = arrowPath();
   const mR = MOON.R * S, mRx = mR * MOON.sx;
@@ -155,15 +163,15 @@ export function markStatic(v: MarkVariant, id: string) {
     `<linearGradient id="${id}e" gradientUnits="userSpaceOnUse" x1="${f(-mRx)}" y1="${f(-mR)}" x2="${f(mRx)}" y2="${f(mR)}"><stop offset="0" stop-color="${pal.e[0]}"/><stop offset="1" stop-color="${pal.e[1]}"/></linearGradient>` +
     `<radialGradient id="${id}r"><stop offset="0" stop-color="${pal.e[0]}" stop-opacity=".16"/><stop offset="1" stop-color="${pal.e[0]}" stop-opacity="0"/></radialGradient>` +
     `<radialGradient id="${id}q"><stop offset="0" stop-color="${pal.t}" stop-opacity=".35"/><stop offset="1" stop-color="${pal.t}" stop-opacity="0"/></radialGradient>`;
-  let under = '';
+  let glow = '';
   if (pal.glow) {
-    under += `<circle cx="${RING.cx}" cy="0" r="${RING.r - 7.5}" fill="url(#${id}r)"/>`;
-    under += `<circle cx="${f(arrow.out.x * S)}" cy="0" r="${f(T.rOut * S * 1.7)}" fill="url(#${id}q)"/>`;
+    glow += `<circle cx="${RING.cx}" cy="0" r="${RING.r - 7.5}" fill="url(#${id}r)"/>`;
+    glow += `<circle cx="${f(arrow.out.x * S)}" cy="0" r="${f(T.rOut * S * 1.7)}" fill="url(#${id}q)"/>`;
   }
-  under += `<circle cx="${RING.cx}" cy="0" r="${RING.r}" fill="none" stroke="${e}" stroke-width="${RING.w}"/>`;
-  under += `<path d="${moon.d}" fill="${e}" stroke="${e}" stroke-width="2.5" stroke-linejoin="round"/>`;
-  under += moon.tips.map(([x, y]) => `<circle cx="${f(x)}" cy="${f(y)}" r="4.5" fill="${e}"/>`).join('');
-  under += `<path d="${arrow.d}" fill="${e}" stroke="${e}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  let body = `<circle cx="${RING.cx}" cy="0" r="${RING.r}" fill="none" stroke="${e}" stroke-width="${RING.w}"/>`;
+  body += `<path d="${moon.d}" fill="${e}" stroke="${e}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  body += moon.tips.map(([x, y]) => `<circle cx="${f(x)}" cy="${f(y)}" r="4.5" fill="${e}"/>`).join('');
+  body += `<path d="${arrow.d}" fill="${e}" stroke="${e}" stroke-width="2.5" stroke-linejoin="round"/>`;
   const { side, vx } = markLayout;
-  return { viewBox: `${f(vx)} ${f(-side / 2)} ${f(side)} ${f(side)}`, defs, under };
+  return { viewBox: `${f(vx)} ${f(-side / 2)} ${f(side)} ${f(side)}`, defs, glow, body };
 }
