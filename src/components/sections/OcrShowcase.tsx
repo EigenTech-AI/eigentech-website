@@ -51,7 +51,7 @@ export function OcrShowcase({ t }: { t: Dictionary['projects']['showcase'] }) {
           <p className="kicker text-muted"><span className="tabular-nums">{num(1)}</span> · {t.layout.title}</p>
           <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-royal/10 ring-1 ring-line" dir="ltr">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset('/ocr/maqamat-painting.webp')} width={1000} height={1212} loading="lazy" decoding="async" alt={t.layout.alt} className="block h-auto w-full" />
+            <img src={asset('/manuscripts/maqamat-painting.webp')} width={1000} height={1212} loading="lazy" decoding="async" alt={t.layout.alt} className="block h-auto w-full" />
             <svg viewBox={`0 0 ${PAINTING.w} ${PAINTING.h}`} aria-hidden="true" className="absolute inset-0 h-full w-full">
               <rect {...rect(PAINTING.image)} rx="18" fill="rgba(95,169,224,0.10)" stroke="#5FA9E0" strokeWidth="2.5" strokeDasharray="10 7" vectorEffect="non-scaling-stroke" />
               {PAINTING.text.map((b, i) => (
@@ -76,7 +76,7 @@ export function OcrShowcase({ t }: { t: Dictionary['projects']['showcase'] }) {
           <p className="kicker text-muted"><span className="tabular-nums">{num(2)}</span> · {t.lines.title}</p>
           <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-royal/10 ring-1 ring-line" dir="ltr">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset('/ocr/maqamat-colophon.webp')} width={1000} height={1193} loading="lazy" decoding="async" alt={t.lines.alt} className="block h-auto w-full" />
+            <img src={asset('/manuscripts/maqamat-colophon.webp')} width={1000} height={1193} loading="lazy" decoding="async" alt={t.lines.alt} className="block h-auto w-full" />
             <svg viewBox={`0 0 ${COLOPHON.w} ${COLOPHON.h}`} aria-hidden="true" className="absolute inset-0 h-full w-full">
               {COLOPHON.lines.map((b, i) => {
                 const col = i >= COLOPHON.first, on = active === i;

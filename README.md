@@ -39,7 +39,8 @@ src/
 public/                Logo files, icons, share image, CNAME (www.eigentech.ai), 404.html
   brand/logo-on-*.svg  Header and footer logo. The name is drawn as outlines (Safari breaks the two-colour
                        Arabic name as live text); regenerate with ../brand-tools/make-logos.js
-  ocr/                 Manuscript pages for the Arabic OCR example (BnF, Arabe 5847)
+  manuscripts/         Manuscript pages for the Arabic OCR example (BnF, Arabe 5847). Not under /ocr:
+                       Cloudflare sends www.eigentech.ai/ocr* to the OCR tool on the server.
 ```
 
 ## Editing content
