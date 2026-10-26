@@ -12,7 +12,7 @@ export type MarkVariant = 'dark' | 'light';
 const S = 100;
 const DEG = Math.PI / 180;
 const LOGO_F = 6; // perspective of the original mark, which fixes where the output neuron sits
-const F = 5.5; // the hero's perspective: a little stronger than the logo's, so the turning T shows its depth
+const F = 6; // the hero's perspective: the same as the logo's
 
 type P3 = [number, number, number];
 type Node = { p: P3; r: number };
@@ -22,20 +22,21 @@ const MOON = { R: 1, r: 0.82, d: 0.25, sx: 0.75 };
 const ARROW = { h0: 0.035, h1: 0.075, ah: 0.19, len: 0.24, back: 0.05 };
 const TIP_X = (MOON.d - MOON.r) * MOON.sx - 0.012; // arrow tip just touches the hilal
 const GAP = 0.1; // between the arrow's tail and the output neuron
-const RING = { cx: 34, r: 128, w: 7 };
+const RING = { cx: 39, r: 134, w: 7 };
 const T = {
   xs: [-2, -1, 0, 1, 2],
-  dx: 0.18,
-  rows: [0.45, 0.255],
-  stem: [0, -0.24, -0.48, -0.72],
+  dx: 0.26, // a wide crossbar: the same five neurons per row, spaced apart
+  rows: [0.42, 0.255], // the top row sits a little lower than in the logo, so it clears the hilal's tip as it turns
+  stem: [0, -0.3, -0.6, -0.9], // four stem neurons, larger than the crossbar's
   r: 0.066,
-  rOut: 0.11,
+  rStem: 0.09,
+  rOut: 0.135,
   zOut: 0.18, // depth of the stem, and of the axis the network turns about
   depth: [-0.1, 0.1], // the crossbar's two layers sit one behind the other
   back: 0.24, // a third crossbar row sits this far behind the crossbar's lower row
   teeth: [0.26, 0.14, 0.2], // how far each neuron of the back column sits behind the stem: a key's cuts
   edgeW: 0.016,
-  strokeW: 0.034,
+  strokeW: 0.04,
 };
 // The output neuron sits where the original mark placed it (x 0.9, seen in a 10° view).
 const T_CX = (() => {
@@ -75,11 +76,11 @@ const NET = (() => {
   const nodes: Node[] = [], edges: Edge[] = [];
   const add = (x: number, y: number, z: number, r: number) => { nodes.push({ p: [x, y, z], r }); return nodes.length - 1; };
   // the crossbar curves gently toward the viewer; kept shallow so its ends clear the hilal's tips and the ring as it turns
-  const bulge = (x: number) => 0.18 - 0.05 * Math.pow((x - T_CX) / 0.42, 2);
+  const bulge = (x: number) => 0.18 - 0.05 * Math.pow((x - T_CX) / (2 * T.dx + 0.06), 2);
   const xs = T.xs.map((k) => T_CX + k * T.dx);
   const [top, lower] = T.rows.map((y, li) => xs.map((x) => add(x, y, bulge(x) + T.depth[li], T.r)));
   const behind = xs.map((x) => add(x, T.rows[1], bulge(x) + T.depth[1] - T.back, T.r)); // behind the lower row
-  const stem = T.stem.map((y) => add(T_CX, y, T.zOut, y === 0 ? T.rOut : T.r)); // on the axis, so the stem never moves
+  const stem = T.stem.map((y) => add(T_CX, y, T.zOut, y === 0 ? T.rOut : T.rStem)); // on the axis, so the stem never moves
   // behind the stem, each at its own depth like the cuts of a key, starting one step below the arrow so it never
   // crosses the arrow or the hilal's tips as it turns. Side-on, the crossbar is the key's head and the stem its blade.
   const stemBack = T.stem.slice(1).map((y, i) => add(T_CX, y, T.zOut - T.teeth[i], T.r));
