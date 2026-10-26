@@ -21,16 +21,16 @@ type Edge = [number, number, boolean];
 const MOON = { R: 1, r: 0.82, d: 0.25, sx: 0.75 };
 const ARROW = { h0: 0.035, h1: 0.075, ah: 0.19, len: 0.24, back: 0.05 };
 const TIP_X = (MOON.d - MOON.r) * MOON.sx - 0.012; // arrow tip just touches the hilal
-const GAP = 0.1; // between the arrow's tail and the output neuron
+const GAP = 0.11; // between the arrow's tail and the output neuron (tail stays where it was with the earlier 0.135 neuron)
 const RING = { cx: 39, r: 134, w: 7 };
 const T = {
   xs: [-2, -1, 0, 1, 2],
   dx: 0.26, // a wide crossbar: the same five neurons per row, spaced apart
-  rows: [0.43, 0.23], // top row a little lower than in the logo so it clears the hilal's tip as it turns; lower rows set down so the key's head stands taller
-  stem: [0, -0.22, -0.44, -0.66, -0.88], // five stem neurons, larger than the crossbar's: the key's blade
+  rows: [0.435, 0.25], // top row a little lower than in the logo so it clears the hilal's tip as it turns; lower rows set down so the key's head stands taller
+  stem: [0, -0.255, -0.47, -0.685, -0.9], // five stem neurons, larger than the crossbar's: the key's blade
   r: 0.066,
   rStem: 0.09,
-  rOut: 0.135,
+  rOut: 0.125,
   zOut: 0.18, // depth of the stem, and of the axis the network turns about
   depth: [0, 0.12], // the top row sits at the middle depth, between the front lower row and the row behind it
   back: 0.24, // a third crossbar row sits this far behind the crossbar's lower row
