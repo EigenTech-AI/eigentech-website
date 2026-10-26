@@ -27,14 +27,14 @@ const T = {
   xs: [-2, -1, 0, 1, 2],
   dx: 0.26, // a wide crossbar: the same five neurons per row, spaced apart
   rows: [0.42, 0.255], // the top row sits a little lower than in the logo, so it clears the hilal's tip as it turns
-  stem: [0, -0.3, -0.6, -0.9], // four stem neurons, larger than the crossbar's
+  stem: [0, -0.22, -0.44, -0.66, -0.88], // five stem neurons, larger than the crossbar's: the key's blade
   r: 0.066,
   rStem: 0.09,
   rOut: 0.135,
   zOut: 0.18, // depth of the stem, and of the axis the network turns about
-  depth: [-0.1, 0.1], // the crossbar's two layers sit one behind the other
+  depth: [0, 0.12], // the top row sits at the middle depth, between the front lower row and the row behind it
   back: 0.24, // a third crossbar row sits this far behind the crossbar's lower row
-  teeth: [0.26, 0.14, 0.2], // how far each neuron of the back column sits behind the stem: a key's cuts
+  teeth: [0.24, 0.16, 0.1, 0.2], // how far each neuron of the back column sits behind the stem: a key's cuts
   edgeW: 0.016,
   strokeW: 0.04,
 };
@@ -87,7 +87,8 @@ const NET = (() => {
   const link = (a: number, b: number, strong: boolean) => edges.push([a, b, strong]);
   const chain = (ids: number[]) => ids.slice(1).forEach((b, i) => link(ids[i], b, true));
   [top, lower, behind, stem, stemBack].forEach(chain);
-  top.forEach((a) => lower.forEach((b) => link(a, b, false))); // the top two layers, fully connected
+  top.forEach((a) => lower.forEach((b) => link(a, b, false))); // the top row, fully connected to both lower rows:
+  top.forEach((a) => behind.forEach((b) => link(a, b, false))); // side-on, the three rows form the key's triangular head
   lower.forEach((a, i) => link(a, behind[i], true)); // rungs into depth
   stemBack.forEach((b, i) => link(stem[i + 1], b, true));
   for (const row of [lower, behind]) row.forEach((a, i) => link(a, stem[0], i === 2)); // both rows feed the output neuron
