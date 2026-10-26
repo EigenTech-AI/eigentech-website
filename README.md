@@ -37,6 +37,8 @@ src/
     validate-contact.ts
   styles/globals.css   Brand colours, light/dark theme tokens, fonts
 public/                Logo files, icons, share image, CNAME (www.eigentech.ai), 404.html
+  brand/, icons        After replacing any logo or icon file, change brandVersion in src/lib/site.ts (and the ?v=
+                       dates in public/site.webmanifest and public/404.html) so visitors see the new files at once.
   brand/logo-on-*.svg  Header and footer logo. The name is drawn as outlines (Safari breaks the two-colour
                        Arabic name as live text); regenerate with ../brand-tools/make-logos.js
   manuscripts/         Manuscript pages for the Arabic OCR example (BnF, Arabe 5847). Not under /ocr:

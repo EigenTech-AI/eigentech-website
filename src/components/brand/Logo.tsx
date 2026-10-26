@@ -1,4 +1,4 @@
-import { asset } from '@/lib/site';
+import { brandAsset } from '@/lib/site';
 
 /**
  * Horizontal logo: the seal, with آيجينتك directly under EigenTech.
@@ -10,9 +10,9 @@ export function Logo({ size = 'md', className = '' }: { size?: 'sm' | 'md' | 'lg
   return (
     <span className={`inline-flex shrink-0 ${className}`} dir="ltr">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={asset('/brand/logo-on-white.svg')} alt="" width={546} height={173} className={`${h} w-auto dark:hidden`} />
+      <img src={brandAsset('/brand/logo-on-white.svg')} alt="" width={546} height={173} className={`${h} w-auto dark:hidden`} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={asset('/brand/logo-on-dark.svg')} alt="" width={546} height={173} className={`${h} hidden w-auto dark:block`} />
+      <img src={brandAsset('/brand/logo-on-dark.svg')} alt="" width={546} height={173} className={`${h} hidden w-auto dark:block`} />
       <span className="sr-only">EigenTech آيجينتك</span>
     </span>
   );

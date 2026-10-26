@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 import { isLocale, localeMeta, locales, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { fontVars } from '@/lib/fonts';
-import { asset, site } from '@/lib/site';
+import { asset, site, brandAsset, brandVersion } from '@/lib/site';
 import { themeScript } from '@/lib/theme';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -41,12 +41,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t.meta.description,
       url: `/${locale}/`,
       locale: localeMeta[locale].ogLocale,
-      images: [{ url: '/brand/og.png', width: 1200, height: 630, alt: 'EigenTech · آيجينتك' }],
+      images: [{ url: `/brand/og.png?v=${brandVersion}`, width: 1200, height: 630, alt: 'EigenTech · آيجينتك' }],
     },
-    twitter: { card: 'summary_large_image', title: t.meta.title, description: t.meta.description, images: ['/brand/og.png'] },
+    twitter: { card: 'summary_large_image', title: t.meta.title, description: t.meta.description, images: [`/brand/og.png?v=${brandVersion}`] },
     icons: {
-      icon: [{ url: asset('/favicon.ico'), sizes: 'any' }, { url: asset('/icon.svg'), type: 'image/svg+xml' }],
-      apple: asset('/apple-touch-icon.png'),
+      icon: [{ url: brandAsset('/favicon.ico'), sizes: 'any' }, { url: brandAsset('/icon.svg'), type: 'image/svg+xml' }],
+      apple: brandAsset('/apple-touch-icon.png'),
     },
     manifest: asset('/site.webmanifest'),
   };
@@ -65,7 +65,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     name: 'EigenTech',
     alternateName: 'آيجينتك',
     url: site.url,
-    logo: `${site.url}/brand/icon-512.png`,
+    logo: `${site.url}/brand/icon-512.png?v=${brandVersion}`,
     email: site.email,
     telephone: site.phoneHref,
     founder: { '@type': 'Person', name: 'Dr. Ahmed Elhayek', jobTitle: 'Founder & CEO' },
