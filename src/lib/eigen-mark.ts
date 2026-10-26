@@ -26,7 +26,7 @@ const RING = { cx: 39, r: 134, w: 7 };
 const T = {
   xs: [-2, -1, 0, 1, 2],
   dx: 0.26, // a wide crossbar: the same five neurons per row, spaced apart
-  rows: [0.42, 0.255], // the top row sits a little lower than in the logo, so it clears the hilal's tip as it turns
+  rows: [0.43, 0.23], // top row a little lower than in the logo so it clears the hilal's tip as it turns; lower rows set down so the key's head stands taller
   stem: [0, -0.22, -0.44, -0.66, -0.88], // five stem neurons, larger than the crossbar's: the key's blade
   r: 0.066,
   rStem: 0.09,
@@ -34,7 +34,7 @@ const T = {
   zOut: 0.18, // depth of the stem, and of the axis the network turns about
   depth: [0, 0.12], // the top row sits at the middle depth, between the front lower row and the row behind it
   back: 0.24, // a third crossbar row sits this far behind the crossbar's lower row
-  teeth: [0.24, 0.16, 0.1, 0.2], // how far each neuron of the back column sits behind the stem: a key's cuts
+  teeth: [0.22, 0.12, 0.2], // the three lowest stem neurons each have a tooth behind them, at its own depth: a key's cuts
   edgeW: 0.016,
   strokeW: 0.04,
 };
@@ -83,14 +83,15 @@ const NET = (() => {
   const stem = T.stem.map((y) => add(T_CX, y, T.zOut, y === 0 ? T.rOut : T.rStem)); // on the axis, so the stem never moves
   // behind the stem, each at its own depth like the cuts of a key, starting one step below the arrow so it never
   // crosses the arrow or the hilal's tips as it turns. Side-on, the crossbar is the key's head and the stem its blade.
-  const stemBack = T.stem.slice(1).map((y, i) => add(T_CX, y, T.zOut - T.teeth[i], T.r));
+  const toothed = T.stem.length - T.teeth.length; // index of the first stem neuron with a tooth
+  const stemBack = T.stem.slice(toothed).map((y, i) => add(T_CX, y, T.zOut - T.teeth[i], T.r));
   const link = (a: number, b: number, strong: boolean) => edges.push([a, b, strong]);
   const chain = (ids: number[]) => ids.slice(1).forEach((b, i) => link(ids[i], b, true));
   [top, lower, behind, stem, stemBack].forEach(chain);
   top.forEach((a) => lower.forEach((b) => link(a, b, false))); // the top row, fully connected to both lower rows:
   top.forEach((a) => behind.forEach((b) => link(a, b, false))); // side-on, the three rows form the key's triangular head
   lower.forEach((a, i) => link(a, behind[i], true)); // rungs into depth
-  stemBack.forEach((b, i) => link(stem[i + 1], b, true));
+  stemBack.forEach((b, i) => link(stem[i + toothed], b, true));
   for (const row of [lower, behind]) row.forEach((a, i) => link(a, stem[0], i === 2)); // both rows feed the output neuron
   return { nodes, edges, outIndex: stem[0] };
 })();
