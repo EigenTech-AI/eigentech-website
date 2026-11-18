@@ -11,5 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
     alternates: { languages: { en: `${site.url}/en${path}`, ar: `${site.url}/ar${path}` } },
   });
-  return [page('/', 1), { ...page('/', 1), url: `${site.url}/ar/` }, page('/privacy/', 0.3), { ...page('/privacy/', 0.3), url: `${site.url}/ar/privacy/` }];
+  return [
+    page('/', 1), { ...page('/', 1), url: `${site.url}/ar/` },
+    page('/warraq/', 0.9), { ...page('/warraq/', 0.9), url: `${site.url}/ar/warraq/` },
+    page('/privacy/', 0.3), { ...page('/privacy/', 0.3), url: `${site.url}/ar/privacy/` },
+  ];
 }

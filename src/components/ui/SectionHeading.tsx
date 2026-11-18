@@ -1,12 +1,16 @@
 import { MarkGlyph, toArabicDigits } from '@/components/brand/MarkGlyph';
 
 /** Section label in EigenTech style: the E glyph, the number in both 01 and ٠١ digits, then the name. */
-export function SectionKicker({ num, label, onBlue = false }: { num: string; label: string; onBlue?: boolean }) {
+export function SectionKicker({ num, label, onBlue = false }: { num?: string; label: string; onBlue?: boolean }) {
   return (
     <p className={`kicker flex items-center gap-2.5 ${onBlue ? 'text-sky' : 'text-bright dark:text-sky'}`}>
       <MarkGlyph className="h-4 w-4 shrink-0" />
-      <span className="tabular-nums" dir="ltr">{num}</span>
-      <span aria-hidden="true" className={`font-normal ${onBlue ? 'text-sky/60' : 'text-bright/50 dark:text-sky/50'}`}>{toArabicDigits(num)}</span>
+      {num ? (
+        <>
+          <span className="tabular-nums" dir="ltr">{num}</span>
+          <span aria-hidden="true" className={`font-normal ${onBlue ? 'text-sky/60' : 'text-bright/50 dark:text-sky/50'}`}>{toArabicDigits(num)}</span>
+        </>
+      ) : null}
       <span aria-hidden="true" className={`h-px w-6 ${onBlue ? 'bg-sky/50' : 'bg-bright/40 dark:bg-sky/40'}`} />
       <span>{label}</span>
     </p>

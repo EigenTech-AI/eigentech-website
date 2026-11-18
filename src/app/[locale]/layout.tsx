@@ -68,7 +68,9 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     logo: `${site.url}/brand/icon-512.png?v=${brandVersion}`,
     email: site.email,
     telephone: site.phoneHref,
+    description: dict.meta.description,
     founder: { '@type': 'Person', name: 'Dr. Ahmed Elhayek', jobTitle: 'Founder & CEO' },
+    address: { '@type': 'PostalAddress', addressLocality: 'Madinah', postalCode: '42317', addressCountry: 'SA' },
     sameAs: [site.linkedin],
   };
 

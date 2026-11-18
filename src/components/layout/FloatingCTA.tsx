@@ -23,7 +23,7 @@ export function FloatingCTA({ label }: { label: string }) {
       href="#contact"
       aria-hidden={!show}
       tabIndex={show ? 0 : -1}
-      className={`fixed end-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] z-40 inline-flex items-center gap-2.5 rounded-full bg-accent py-3 ps-4 pe-5 text-sm font-semibold text-accent-fg shadow-xl shadow-royal/30 transition duration-300 hover:brightness-110 ${
+      className={`fixed end-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] z-40 inline-flex items-center gap-2.5 rounded-full bg-accent py-3 ps-4 pe-5 text-sm font-semibold text-accent-fg shadow-xl shadow-royal/30 ring-1 ring-white/30 transition duration-300 hover:brightness-110 ${
         show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'
       }`}
     >

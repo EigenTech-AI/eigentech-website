@@ -43,6 +43,15 @@ export function Contact({ locale, t }: { locale: Locale; t: Dictionary['contact'
               </li>
             ))}
           </ul>
+          <p className="flex items-start gap-4 rounded-2xl border border-line bg-bg/80 p-4 backdrop-blur">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-royal text-white dark:bg-sky dark:text-night">
+              <Icon name="pin" />
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span className="label-mono text-[0.64rem] text-muted">{t.details.address}</span>
+              <span className="font-medium leading-relaxed text-fg">{t.address}</span>
+            </span>
+          </p>
         </div>
         <ContactForm locale={locale} t={t.form} />
       </Container>

@@ -20,20 +20,25 @@ src/
   app/
     (root)/            "/" — picks /en/ or /ar/ from the visitor's saved choice or browser language
     [locale]/          English and Arabic pages (layout sets lang, dir="rtl" for Arabic, theme, SEO)
-      page.tsx         Home: Hero, Services, Projects, Platform, Edge, Industries, About, Contact
+      page.tsx         Home: Hero, Focus (Warraq, the main project and current focus, with its video),
+                       Projects (the other projects, in brief), Services, Platform, Edge, Industries,
+                       About (with the team), Contact
+      warraq/          The Warraq page: everything about Warraq, following the company profile (version 3)
       privacy/         Privacy policy
     sitemap.ts, robots.ts
   components/
     brand/             Logo (آيجينتك always under EigenTech), HeroMark (animated mark), MarkGlyph
     layout/            Header (mobile menu), Footer, FloatingCTA, ThemeToggle, LanguageSwitcher
     sections/          One file per home-page section, plus ContactForm
+    warraq/            The sections of the Warraq page, and VideoPlayer (also used on the home page)
     ui/                Container, SectionHeading (numbered), Button, Tag, Icon
   i18n/
     config.ts          Locales and text direction
     dictionaries/      en.ts and ar.ts — ALL site text lives here
   lib/
-    site.ts            Contact details, LinkedIn and URLs
+    site.ts            Contact details, LinkedIn, URLs, the Warraq link and mediaVersion
     eigen-mark.ts      Geometry of the logo mark (used by the animated hero)
+    warraq-video.ts    Details of the Warraq video for search engines
     validate-contact.ts
   styles/globals.css   Brand colours, light/dark theme tokens, fonts
 public/                Logo files, icons, share image, CNAME (www.eigentech.ai), 404.html
@@ -41,8 +46,11 @@ public/                Logo files, icons, share image, CNAME (www.eigentech.ai),
                        dates in public/site.webmanifest and public/404.html) so visitors see the new files at once.
   brand/logo-on-*.svg  Header and footer logo. The name is drawn as outlines (Safari breaks the two-colour
                        Arabic name as live text); regenerate with ../brand-tools/make-logos.js
-  manuscripts/         Manuscript pages for the Arabic OCR example (BnF, Arabe 5847). Not under /ocr:
-                       Cloudflare sends www.eigentech.ai/ocr* to the OCR tool on the server.
+  media/               The Warraq videos (Arabic and English, about 15 MB each) with their posters and WebVTT
+                       captions, stills of two video scenes, and two images from the company profile. Made by
+                       ../Profile and contracts/video/source/web-media.py. After replacing any file here, change
+                       mediaVersion in src/lib/site.ts. Not under /ocr: Cloudflare sends www.eigentech.ai/ocr* to
+                       Warraq on the server.
 ```
 
 ## Editing content

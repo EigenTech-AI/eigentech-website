@@ -32,6 +32,12 @@ const paths = {
   menu: 'M4 7h16M4 12h16M4 17h16',
   close: 'M6 6l12 12M18 6L6 18',
   arrow: 'M5 12h14M13 6l6 6-6 6',
+  scan: 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16',
+  layout: 'M4 4h16v5H4zM4 12h7v8H4zM14 12h6M14 16h6M14 20h4',
+  pin: 'M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+  lock: 'M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3M12 14.5v2.5',
+  play: 'M8 5.5v13l10.5-6.5z',
+  download: 'M12 4v11M7 10.5l5 5 5-5M5 20h14',
   up: 'M12 19V5M6 11l6-6 6 6',
 } satisfies Record<string, string>;
 

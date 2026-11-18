@@ -75,7 +75,7 @@ export function Hero({ t }: { t: Dictionary['hero'] }) {
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted">{t.subtitle}</p>
           <div className="flex flex-wrap items-center gap-3">
-            <ButtonLink href="#projects" className="px-6 py-3">
+            <ButtonLink href="#warraq" className="px-6 py-3">
               {t.primary}
               <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />
             </ButtonLink>

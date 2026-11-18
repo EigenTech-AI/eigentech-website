@@ -1,0 +1,166 @@
+WEBVTT
+
+1
+00:00:00.650 --> 00:00:04.699
+Thousands of Arabic manuscripts and documents can only be read
+
+2
+00:00:04.739 --> 00:00:05.161
+by eye.
+
+3
+00:00:05.201 --> 00:00:07.910
+Many of them are hard for most people to read,
+
+4
+00:00:07.950 --> 00:00:10.222
+and none of them can be searched.
+
+5
+00:00:11.634 --> 00:00:15.907
+Therefore, we built Warraq, a system that turns old printed
+
+6
+00:00:15.947 --> 00:00:19.270
+documents and manuscripts into fully editable,
+
+7
+00:00:19.310 --> 00:00:20.780
+searchable text.
+
+8
+00:00:22.186 --> 00:00:25.511
+You upload your pages as PDF files or images,
+
+9
+00:00:25.551 --> 00:00:28.393
+up to one hundred pages at a time.
+
+10
+00:00:29.810 --> 00:00:32.579
+Warraq reads the page line by line.
+
+11
+00:00:32.619 --> 00:00:35.476
+It detects every line, extracts its text,
+
+12
+00:00:35.516 --> 00:00:39.574
+and corrects its reading in the context of the whole page.
+
+13
+00:00:39.614 --> 00:00:44.244
+This is a real reading of two pages from a manuscript in Islamic
+
+14
+00:00:44.284 --> 00:00:45.605
+jurisprudence.
+
+15
+00:00:47.010 --> 00:00:51.101
+Forty-four lines and five hundred and twenty-four words,
+
+16
+00:00:51.141 --> 00:00:53.949
+read by Warraq in sixteen seconds.
+
+17
+00:00:55.354 --> 00:00:58.642
+And Warraq is more than text extraction.
+
+18
+00:00:58.682 --> 00:01:00.902
+It works on any type of document.
+
+19
+00:01:00.942 --> 00:01:03.854
+It divides the page into headings, text,
+
+20
+00:01:03.894 --> 00:01:08.576
+tables and images, and generates a structured text document that
+
+21
+00:01:08.616 --> 00:01:11.056
+keeps the layout of the page.
+
+22
+00:01:12.458 --> 00:01:15.310
+Warraq also takes a complete manuscript,
+
+23
+00:01:15.350 --> 00:01:16.756
+with all its copies.
+
+24
+00:01:16.796 --> 00:01:21.159
+It extracts the text of every copy, collates the copies and
+
+25
+00:01:21.199 --> 00:01:24.443
+records the variants, references the verses,
+
+26
+00:01:24.483 --> 00:01:28.847
+hadith and quotations, and produces the authenticated book,
+
+27
+00:01:28.887 --> 00:01:30.381
+ready for print.
+
+28
+00:01:31.794 --> 00:01:34.520
+Warraq reads governmental documents,
+
+29
+00:01:34.560 --> 00:01:38.975
+old printed books, and manuscripts in Eastern and Maghribi
+
+30
+00:01:39.015 --> 00:01:39.930
+scripts.
+
+31
+00:01:41.338 --> 00:01:45.510
+It is the most accurate system for governmental documents and
+
+32
+00:01:45.550 --> 00:01:49.445
+manuscripts, and it runs entirely on our servers in Saudi
+
+33
+00:01:49.485 --> 00:01:53.243
+Arabia, without public tools or public language models.
+
+34
+00:01:53.283 --> 00:01:56.335
+Your documents never leave the Kingdom.
+
+35
+00:01:57.746 --> 00:01:59.863
+We work with you in two ways.
+
+36
+00:01:59.903 --> 00:02:04.053
+We process your documents under a non-disclosure agreement and
+
+37
+00:02:04.093 --> 00:02:06.486
+return complete, authenticated text.
+
+38
+00:02:06.526 --> 00:02:10.296
+Or we give your organisation its own access to Warraq,
+
+39
+00:02:10.336 --> 00:02:13.953
+customised to your documents and your workflow.
+
+40
+00:02:15.378 --> 00:02:17.722
+Warraq, by EigenTech in Madinah.
+
+41
+00:02:17.762 --> 00:02:19.830
+Try it now on our website.
+

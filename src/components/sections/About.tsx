@@ -39,28 +39,28 @@ export function About({ t }: { t: Dictionary['about'] }) {
             <h3 className="label-mono text-muted">{t.leadershipTitle}</h3>
             <p className="max-w-2xl text-muted">{t.leadershipIntro}</p>
           </div>
-          <div className="grid gap-5 lg:grid-cols-[1.6fr_1fr]">
+          <div className="grid gap-5 md:grid-cols-2">
             {t.members.map((m) => (
-              <article key={m.name} className="flex flex-col gap-6 rounded-3xl border border-line bg-bg p-8 sm:flex-row sm:items-start">
-                <div aria-hidden="true" className="grid h-24 w-24 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-royal to-bright font-display text-3xl font-semibold text-white shadow-lg shadow-royal/20">
+              <article key={m.name} className="flex flex-col gap-5 rounded-3xl border border-line bg-bg p-7 sm:flex-row sm:items-start">
+                <div aria-hidden="true" className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-royal to-bright font-display text-xl font-semibold text-white shadow-lg shadow-royal/20">
                   {m.initials}
                 </div>
                 <div className="flex flex-col gap-3">
                   <div>
-                    <h4 className="text-2xl font-medium text-fg">{m.name}</h4>
+                    <h4 className="text-xl font-medium text-fg">{m.name}</h4>
                     <p className="label-mono mt-1 text-bright dark:text-sky">{m.role}</p>
                   </div>
-                  <p className="leading-relaxed text-muted">{m.bio}</p>
+                  <p className="text-sm leading-relaxed text-muted">{m.bio}</p>
                   <Tags items={m.tags} />
                 </div>
               </article>
             ))}
-            <aside className="flex flex-col justify-between gap-6 rounded-3xl border border-dashed border-line bg-bg/60 p-8">
+            <aside className="flex flex-col justify-between gap-6 rounded-3xl border border-dashed border-line bg-bg/60 p-7 md:col-span-2 md:flex-row md:items-center">
               <div className="flex flex-col gap-2">
                 <h4 className="text-xl font-medium text-fg">{t.joinTitle}</h4>
                 <p className="text-sm leading-relaxed text-muted">{t.joinText}</p>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex shrink-0 flex-col gap-3">
                 <a href={`mailto:${site.email}?subject=Careers%20at%20EigenTech`} className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-link">
                   {t.joinCta}
                   <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />

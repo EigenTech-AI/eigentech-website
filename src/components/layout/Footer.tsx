@@ -16,7 +16,10 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <p className="text-sm leading-relaxed text-muted">{dict.footer.tagline}</p>
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm sm:grid-cols-3">
-          {(['services', 'projects', 'platform', 'edge', 'industries', 'about', 'contact'] as const).map((k) => (
+          <a href={`${home}warraq/`} className="font-semibold text-royal transition hover:text-fg dark:text-sky">
+            {dict.nav.warraq}
+          </a>
+          {(['projects', 'services', 'platform', 'edge', 'industries', 'about', 'contact'] as const).map((k) => (
             <a key={k} href={`${home}#${k}`} className="text-muted transition hover:text-fg">
               {dict.nav[k]}
             </a>
@@ -34,7 +37,10 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
       </Container>
       <div className="border-t border-line">
         <Container className="flex flex-col items-center justify-between gap-3 py-5 text-xs text-muted sm:flex-row">
-          <p>© {year} EigenTech · آيجينتك. {dict.footer.rights}</p>
+          <div className="flex flex-col gap-1 text-center sm:text-start">
+            <p>© {year} EigenTech · آيجينتك. {dict.footer.rights}</p>
+            <p>{dict.footer.legal}</p>
+          </div>
           <a href="#top" className="inline-flex items-center gap-1.5 hover:text-fg">
             <Icon name="up" className="h-3.5 w-3.5" />
             {dict.footer.backToTop}

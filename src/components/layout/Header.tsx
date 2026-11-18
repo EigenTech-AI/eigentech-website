@@ -14,8 +14,9 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
   const [scrolled, setScrolled] = useState(false);
   const home = `${basePath}/${locale}/`;
   const links = [
-    { href: `${home}#services`, label: nav.services },
+    { href: `${home}warraq/`, label: nav.warraq, main: true },
     { href: `${home}#projects`, label: nav.projects },
+    { href: `${home}#services`, label: nav.services },
     { href: `${home}#platform`, label: nav.platform },
     { href: `${home}#industries`, label: nav.industries },
     { href: `${home}#about`, label: nav.about },
@@ -53,7 +54,7 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
 
         <nav aria-label="Main" className="hidden items-center gap-0.5 xl:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="rounded-full px-3 py-2 text-sm font-medium text-muted transition hover:bg-surface hover:text-fg">
+            <a key={l.href} href={l.href} className={`rounded-full px-3 py-2 text-sm transition hover:bg-surface hover:text-fg ${'main' in l ? 'font-semibold text-royal dark:text-sky' : 'font-medium text-muted'}`}>
               {l.label}
             </a>
           ))}
@@ -86,7 +87,7 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
       <div id="mobile-menu" hidden={!open} className="border-t border-line bg-bg xl:hidden">
         <nav aria-label="Mobile" className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 sm:px-8">
           {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="rounded-xl px-3 py-3 text-base font-medium text-fg hover:bg-surface">
+            <a key={l.href} href={l.href} onClick={() => setOpen(false)} className={`rounded-xl px-3 py-3 text-base hover:bg-surface ${'main' in l ? 'font-semibold text-royal dark:text-sky' : 'font-medium text-fg'}`}>
               {l.label}
             </a>
           ))}
