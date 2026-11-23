@@ -1,11 +1,12 @@
 import { brandAsset } from '@/lib/site';
 
 /** "Powered by" with the EigenTech logo, linking to the company site. */
-export function PoweredBy({ label, href, className = '', logoClass = 'h-8' }: { label: string; href: string; className?: string; logoClass?: string }) {
+export function PoweredBy({ label, href, className = '', logoClass = 'h-9' }: { label: string; href: string; className?: string; logoClass?: string }) {
   return (
-    <a href={href} className={`inline-flex w-fit items-center gap-2.5 rounded-full border border-line bg-bg/80 py-1.5 ps-4 pe-2 text-xs font-medium text-muted backdrop-blur transition hover:border-bright hover:text-fg dark:hover:border-sky ${className}`}>
+    <a href={href} className={`group inline-flex w-fit items-center gap-3 text-xs font-medium text-wmuted transition hover:text-wtext ${className}`}>
       <span>{label}</span>
-      <span dir="ltr" className="inline-flex">
+      <span aria-hidden="true" className="h-5 w-px bg-rule" />
+      <span dir="ltr" className="inline-flex transition group-hover:opacity-80">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={brandAsset('/brand/logo-on-white.svg')} alt="EigenTech" width={546} height={173} className={`${logoClass} w-auto dark:hidden`} />
         {/* eslint-disable-next-line @next/next/no-img-element */}

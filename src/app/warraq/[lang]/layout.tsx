@@ -4,11 +4,10 @@ import '@/styles/globals.css';
 import { isLocale, localeMeta, locales, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { fontVars } from '@/lib/fonts';
-import { brandAsset, mediaAsset, site } from '@/lib/site';
+import { brandAsset, mediaAsset, site, warraqHome } from '@/lib/site';
 import { themeScript } from '@/lib/theme';
 import { WarraqHeader } from '@/components/warraq/WarraqHeader';
 import { WarraqFooter } from '@/components/warraq/WarraqFooter';
-import { FloatingCTA } from '@/components/layout/FloatingCTA';
 
 // The standalone Warraq site, www.eigentech.ai/warraq/ar/ and /en/: an independent project, powered by EigenTech.
 // It has its own header and footer; the EigenTech site links to it, and it links back through "Powered by EigenTech".
@@ -78,11 +77,10 @@ export default async function WarraqLayout({ children, params }: { children: Rea
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(product) }} />
       </head>
-      <body id="top" className="min-h-dvh">
+      <body id="top" className="warraq min-h-dvh">
         <WarraqHeader locale={loc} nav={t.warraqSite.nav} poweredBy={t.warraqSite.poweredBy} />
         <main id="main">{children}</main>
-        <WarraqFooter locale={loc} t={t.warraqSite.footer} legal={t.footer.legal} poweredBy={t.warraqSite.poweredBy} />
-        <FloatingCTA label={t.floating.label} />
+        <WarraqFooter locale={loc} t={t.warraqSite.footer} legal={t.footer.legal} poweredBy={t.warraqSite.poweredBy} home={warraqHome(loc)} />
       </body>
     </html>
   );

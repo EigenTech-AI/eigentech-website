@@ -12,13 +12,14 @@ const LANGS: Locale[] = ['ar', 'en'];
  * The Warraq promotional video, in Arabic and English, for a blue background. The page's language plays first;
  * the visitor can switch.
  */
-export function VideoPlayer({ locale, t, className = '' }: { locale: Locale; t: Dictionary['warraqPage']['video']; className?: string }) {
+export function VideoPlayer({ locale, t, className = '', tone = 'blue' }: { locale: Locale; t: Dictionary['warraqPage']['video']; className?: string; tone?: 'blue' | 'paper' }) {
+  const paper = tone === 'paper';
   const [lang, setLang] = useState<Locale>(locale);
   const v = t.versions[lang];
   const src = mediaAsset(`warraq-promo-${lang}.mp4`);
   return (
     <div className={`flex flex-col gap-4 ${className}`}>
-      <div role="group" aria-label={t.choose} className="inline-flex w-fit gap-1 rounded-full bg-white/10 p-1 ring-1 ring-white/15">
+      <div role="group" aria-label={t.choose} className={paper ? 'inline-flex w-fit gap-5 border-b border-rule' : 'inline-flex w-fit gap-1 rounded-full bg-white/10 p-1 ring-1 ring-white/15'}>
         {LANGS.map((l) => (
           <button
             key={l}
@@ -26,13 +27,15 @@ export function VideoPlayer({ locale, t, className = '' }: { locale: Locale; t: 
             lang={l}
             aria-pressed={l === lang}
             onClick={() => setLang(l)}
-            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${l === lang ? 'bg-white text-royal' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+            className={paper
+              ? `-mb-px border-b-2 pb-2 text-sm font-semibold transition ${l === lang ? 'border-wink text-wink' : 'border-transparent text-wmuted hover:text-wtext'}`
+              : `rounded-full px-4 py-1.5 text-sm font-semibold transition ${l === lang ? 'bg-white text-royal' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
           >
             {t.versions[l].name}
           </button>
         ))}
       </div>
-      <div className="overflow-hidden rounded-[1.5rem] bg-night shadow-2xl shadow-black/30 ring-1 ring-white/15">
+      <div className={paper ? 'w-frame overflow-hidden bg-night' : 'overflow-hidden rounded-[1.5rem] bg-night shadow-2xl shadow-black/30 ring-1 ring-white/15'}>
         {/* A new key for each language, so the player loads the other file from the start */}
         <video key={lang} controls playsInline preload="none" poster={mediaAsset(`warraq-promo-${lang}-poster.webp`)} title={v.title} className="block aspect-video h-auto w-full">
           <source src={src} type="video/mp4" />
