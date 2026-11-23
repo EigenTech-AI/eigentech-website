@@ -61,6 +61,10 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
         </nav>
 
         <div className="flex items-center gap-2">
+          <a href={warraqHome(locale)} className="hidden h-10 items-center gap-2 rounded-full border border-royal/25 bg-royal/5 px-4 text-sm font-semibold text-royal transition hover:border-royal md:inline-flex xl:hidden dark:border-sky/30 dark:bg-sky/10 dark:text-sky dark:hover:border-sky">
+            <Icon name="document" className="h-4 w-4" />
+            {nav.warraq}
+          </a>
           <div className="hidden sm:block">
             <LanguageSwitcher locale={locale} label={nav.language} title={nav.languageLabel} />
           </div>

@@ -428,6 +428,7 @@ const en = {
       themeDark: 'Switch to dark mode',
       themeLight: 'Switch to light mode',
       skip: 'Skip to content',
+      home: 'EigenTech website',
     },
     powered: {
       num: '06',

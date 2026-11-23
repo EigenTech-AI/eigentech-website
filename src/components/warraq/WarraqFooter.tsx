@@ -9,18 +9,19 @@ import { PoweredBy } from './PoweredBy';
 /** Footer of the standalone Warraq site. */
 export function WarraqFooter({ locale, t, legal, poweredBy }: { locale: Locale; t: Dictionary['warraqSite']['footer']; legal: string; poweredBy: string }) {
   const year = new Date().getFullYear();
+  const home = `${basePath}/${locale}/`;
   return (
     <footer className="border-t border-line bg-surface">
       <Container className="flex flex-col gap-10 py-12 md:flex-row md:items-start md:justify-between">
         <div className="flex max-w-md flex-col gap-4">
           <WarraqMark />
           <p className="text-sm leading-relaxed text-muted">{t.tagline}</p>
-          <PoweredBy label={poweredBy} />
+          <PoweredBy label={poweredBy} href={home} />
         </div>
         <ul className="flex flex-col gap-3 text-sm">
           <li><a href={`tel:${site.phoneHref}`} dir="ltr" className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="phone" className="h-4 w-4" />{site.phoneDisplay}</a></li>
           <li><a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="mail" className="h-4 w-4" />{site.email}</a></li>
-          <li><a href={`${site.url}/`} className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="globe" className="h-4 w-4" />EigenTech.ai</a></li>
+          <li><a href={home} className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="globe" className="h-4 w-4" />EigenTech.ai</a></li>
           <li><a href={`${basePath}/${locale}/privacy/`} className="inline-flex items-center gap-2 text-muted hover:text-fg"><Icon name="shield" className="h-4 w-4" />{t.privacy}</a></li>
         </ul>
       </Container>

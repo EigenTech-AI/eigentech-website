@@ -6,14 +6,14 @@ import { Icon } from '@/components/ui/Icon';
 import { MarkGlyph } from '@/components/brand/MarkGlyph';
 import { PoweredBy } from './PoweredBy';
 
-export function WarraqHero({ t, poweredBy }: { t: Dictionary['warraqPage']['hero']; poweredBy: string }) {
+export function WarraqHero({ t, poweredBy, home }: { t: Dictionary['warraqPage']['hero']; poweredBy: string; home: string }) {
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
       <div aria-hidden="true" className="bg-khatam pointer-events-none absolute inset-0 [mask-image:radial-gradient(75%_65%_at_75%_35%,black,transparent)]" />
       <div aria-hidden="true" className="glow pointer-events-none absolute -top-48 end-[-12%] h-[44rem] w-[44rem]" />
       <Container className="relative grid items-center gap-12 pt-10 pb-20 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:pb-24">
         <div className="flex flex-col gap-7">
-          <PoweredBy label={poweredBy} />
+          <PoweredBy label={poweredBy} href={home} />
           <p className="kicker flex items-center gap-3 text-bright dark:text-sky">
             <MarkGlyph className="h-5 w-5 shrink-0" />
             <span>{t.eyebrow}</span>

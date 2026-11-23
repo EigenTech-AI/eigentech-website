@@ -429,6 +429,7 @@ const ar: Dictionary = {
       themeDark: 'التبديل إلى الوضع الداكن',
       themeLight: 'التبديل إلى الوضع الفاتح',
       skip: 'تخطَّ إلى المحتوى',
+      home: 'موقع آيجينتك',
     },
     powered: {
       num: '06',
