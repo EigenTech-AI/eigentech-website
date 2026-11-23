@@ -26,7 +26,7 @@
   --color-accent-fg: var(--accent-fg);
   --color-link: var(--link);
 
-  /* Warraq site: paper, blue ink and hairline rules (see .warraq below) */
+  /* Warraq site: the EigenTech colours under the names its components use (see --w-* below) */
   --color-paper: var(--w-paper);
   --color-paper-2: var(--w-paper-2);
   --color-rule: var(--w-rule);
@@ -55,12 +55,13 @@
   --accent-fg: #ffffff;
   --link: #2f5bd0;
   color-scheme: light;
-  --w-paper: #f7f4ec;
-  --w-paper-2: #efe9dc;
-  --w-rule: #d8cfbb;
+  /* Warraq site: the same surfaces, lines and text as the EigenTech site; royal blue (sky in dark mode) as the ink */
+  --w-paper: var(--bg);
+  --w-paper-2: var(--surface);
+  --w-rule: var(--line);
   --w-ink: #1d3d9c;
-  --w-text: #15202a;
-  --w-muted: #5b5850;
+  --w-text: var(--fg);
+  --w-muted: var(--muted);
 }
 
 .dark {
@@ -76,12 +77,7 @@
   --accent-fg: #071233;
   --link: #a8d8f5;
   color-scheme: dark;
-  --w-paper: #0b1330;
-  --w-paper-2: #0f1a40;
-  --w-rule: #283565;
   --w-ink: #a8d8f5;
-  --w-text: #e6ecf7;
-  --w-muted: #a3afcb;
 }
 
 @layer base {
@@ -147,22 +143,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 20 L45.66 25.86 L54.14 25.86 L54.14 34.34 L60 40 L54.14 45.66 L54.14 54.14 L45.66 54.14 L40 60 L34.34 54.14 L25.86 54.14 L25.86 45.66 L20 40 L25.86 34.34 L25.86 25.86 L34.34 25.86 Z' fill='none' stroke='%23a8d8f5' stroke-opacity='.08' stroke-width='1'/%3E%3C/svg%3E");
   }
 
-  /*
-   * Warraq site (www.eigentech.ai/warraq): a book page. Warm paper with EigenTech blue as the ink, hairline rules,
-   * double frame lines like the ruling (jadwal) around a manuscript text, and notes in the margin.
-   * The shared tokens are mapped to paper here, so shared parts (the contact form, the theme button) follow.
-   */
-  .warraq {
-    --bg: var(--w-paper);
-    --surface: var(--w-paper-2);
-    --surface-2: var(--w-paper-2);
-    --fg: var(--w-text);
-    --muted: var(--w-muted);
-    --line: var(--w-rule);
-    background: var(--w-paper);
-    color: var(--w-text);
-  }
-  .w-frame { border: 1px solid var(--w-ink); outline: 1px solid var(--w-ink); outline-offset: 5px; }
+  /* Warraq site (www.eigentech.ai/warraq): dotted leaders of the contents list, and the reading animation of the opening */
   .w-leader { flex: 1 1 2rem; min-width: 2rem; border-bottom: 2px dotted var(--w-rule); transform: translateY(-0.45em); }
   /* the reading line passes down the page while the line boxes appear */
   @keyframes w-reveal { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
@@ -172,9 +153,3 @@
   .w-scan { animation: w-scan 6.5s linear 0.5s both; }
   .w-line { animation: w-line-in 0.7s ease-out both; }
 }
-
-/* Shared form on the Warraq paper: square corners like the rest of that page. Outside the layers, so these win over
-   the utility classes the form uses on the EigenTech site. */
-.warraq form, .warraq form [role=alert], .warraq [role=status] { border-radius: 2px; }
-.warraq form input, .warraq form select, .warraq form textarea { border-radius: 3px; background: var(--w-paper); }
-.warraq form button[type=submit] { border-radius: 4px; background: var(--w-ink); color: var(--w-paper); }

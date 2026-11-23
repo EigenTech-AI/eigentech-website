@@ -31,7 +31,7 @@ export function WarraqContact({ locale, t }: { locale: Locale; t: Dictionary['co
               </div>
             ))}
           </dl>
-          <div className="w-frame bg-paper-2 p-2 sm:p-3 lg:col-span-9">
+          <div className="lg:col-span-9">
             <ContactForm locale={locale} t={t.form} />
           </div>
         </div>

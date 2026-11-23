@@ -20,7 +20,7 @@ export function Reads({ t, notes, digits }: { t: Dictionary['warraqPage']['reads
             {t.items.map((it, i) => (
               <li key={it.title} className={`flex flex-col gap-3 py-7 sm:px-7 ${i ? 'border-t border-rule sm:border-t-0 sm:border-s' : 'sm:ps-0'}`}>
                 <span className="text-xs font-semibold text-sky tabular-nums">{digits(i + 1)}</span>
-                <h3 className="font-display text-2xl font-semibold text-wtext">{it.title}</h3>
+                <h3 className="font-display text-2xl font-medium text-wtext">{it.title}</h3>
                 <p className="text-sm leading-relaxed text-wmuted">{it.text}</p>
               </li>
             ))}
@@ -30,7 +30,7 @@ export function Reads({ t, notes, digits }: { t: Dictionary['warraqPage']['reads
         <dl className="grid lg:grid-cols-12 lg:gap-x-10">
           {[[t.inTitle, t.inText], [t.outTitle, t.outText]].map(([k, v]) => (
             <div key={k} className="grid gap-2 border-t border-rule py-5 last:border-b lg:col-span-12 lg:grid-cols-12 lg:gap-10">
-              <dt className="font-display text-lg font-semibold text-wink lg:col-span-3">{k}</dt>
+              <dt className="font-display text-lg font-medium text-wink lg:col-span-3">{k}</dt>
               <dd className="leading-relaxed text-wtext lg:col-span-9">{v}</dd>
             </div>
           ))}
@@ -38,25 +38,25 @@ export function Reads({ t, notes, digits }: { t: Dictionary['warraqPage']['reads
 
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="flex flex-col gap-5 lg:col-span-3">
-            <h3 className="font-display text-3xl font-semibold text-wtext">{w.title}</h3>
+            <h3 className="font-display text-3xl font-medium text-wtext">{w.title}</h3>
             <p className="text-sm leading-relaxed text-wmuted">{w.lead}</p>
             <p className="mt-2 border-t border-rule pt-4 text-xs font-medium text-wmuted">{notes}</p>
             <ol className="flex flex-col gap-3">
               {w.callouts.map((c, i) => (
                 <li key={c} className="flex gap-3 text-sm leading-relaxed text-wtext">
-                  <span className="font-display font-semibold text-wink tabular-nums">({digits(i + 1)})</span>
+                  <span className="font-display font-medium text-wink tabular-nums">({digits(i + 1)})</span>
                   <span>{c}</span>
                 </li>
               ))}
             </ol>
           </div>
           <figure className="flex flex-col gap-4 lg:col-span-9">
-            <div className="w-frame bg-paper-2 p-2 sm:p-3">
-              <div dir="ltr" className="relative">
+            <div className="overflow-hidden rounded-[1.5rem] border border-line bg-bg p-2 shadow-2xl shadow-royal/10 sm:p-3">
+              <div dir="ltr" className="relative overflow-hidden rounded-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={mediaAsset('warraq-at-work.webp')} alt={w.imageAlt} width={1800} height={1207} loading="lazy" className="block h-auto w-full" />
                 {MARKS.map(([x, y], i) => (
-                  <span key={i} aria-hidden="true" style={{ left: `${x}%`, top: `${y}%` }} className="absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-paper bg-wink font-display text-xs font-semibold text-paper shadow-md sm:h-9 sm:w-9 sm:text-sm">
+                  <span key={i} aria-hidden="true" style={{ left: `${x}%`, top: `${y}%` }} className="absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-white bg-royal font-display text-xs font-medium text-white shadow-lg sm:h-9 sm:w-9 sm:text-sm">
                     {digits(i + 1)}
                   </span>
                 ))}
@@ -66,7 +66,7 @@ export function Reads({ t, notes, digits }: { t: Dictionary['warraqPage']['reads
               <span>{w.statsTitle}</span>
               {w.stats.map((s) => (
                 <span key={s.label} className="whitespace-nowrap">
-                  <b className="font-display text-2xl font-semibold text-wink tabular-nums">{s.value}</b> {s.label}
+                  <b className="font-display text-2xl font-medium text-wink tabular-nums">{s.value}</b> {s.label}
                 </span>
               ))}
               <span className="ms-auto text-xs" dir="ltr">{w.caption.replace(/^.*?(www\.)/, '$1')}</span>

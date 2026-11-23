@@ -279,7 +279,7 @@ const en = {
       download: 'Download the video (MP4)',
     },
     reads: {
-      num: '1',
+      num: '01',
       label: 'Warraq',
       title: 'What Warraq reads',
       intro:
@@ -316,7 +316,7 @@ const en = {
       },
     },
     capabilities: {
-      num: '2',
+      num: '02',
       label: 'Capabilities',
       title: 'More than text extraction',
       intro: 'Warraq works on any type of document, and it takes a complete manuscript, with all its copies, to an authenticated book.',
@@ -341,7 +341,7 @@ const en = {
       },
     },
     why: {
-      num: '3',
+      num: '03',
       label: 'Our advantages',
       title: 'Why Warraq',
       items: [
@@ -364,7 +364,7 @@ const en = {
       sovereign: 'All of Warraq runs on our own servers in Saudi Arabia. No page is sent to public tools or public language models, so your documents never leave the Kingdom.',
     },
     models: {
-      num: '4',
+      num: '04',
       label: 'Working with us',
       title: 'Two ways to work with us',
       items: [
@@ -383,7 +383,7 @@ const en = {
       cta: 'Talk to us about your documents',
     },
     clients: {
-      num: '5',
+      num: '05',
       label: 'Who we work with',
       title: 'Who we work with',
       intro: 'Our work is for organisations that keep Arabic texts on paper and need to read them, search them or publish them.',
@@ -400,7 +400,7 @@ const en = {
         'Madinah has been a centre of Islamic scholarship since the first century of Islam, and its libraries keep large collections of manuscripts. Therefore, we see the service of this heritage as our duty, and we hope that our work benefits it. This work is also in line with the goals of Saudi Vision 2030 for preserving the national heritage and for digital transformation.',
     },
     contact: {
-      num: '7',
+      num: '07',
       title: 'Tell us about your documents',
       intro: 'To process your documents with Warraq, or to give your organisation access to it, contact us. We reply within two working days.',
       interests: ['Warraq: document processing under NDA', 'Warraq for my organisation', 'Warraq: from a manuscript to an authenticated book', 'Something else'],
@@ -436,7 +436,7 @@ const en = {
       home: 'EigenTech website',
     },
     powered: {
-      num: '6',
+      num: '06',
       label: 'Powered by EigenTech',
       title: 'An independent project, built and run by EigenTech',
       text: 'Warraq is developed by EigenTech, a Saudi company in Madinah founded by university professors and engineers in artificial intelligence and computer vision. EigenTech builds the models, runs Warraq on its servers in Saudi Arabia, and supports every organisation that uses it.',

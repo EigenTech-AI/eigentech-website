@@ -46,15 +46,15 @@ export function WarraqHeader({ locale, nav, poweredBy }: { locale: Locale; nav: 
       lang={other}
       title={nav.languageLabel}
       onClick={() => { try { localStorage.setItem(LOCALE_KEY, other); } catch { /* storage unavailable */ } }}
-      className="inline-flex h-10 items-center px-2 text-sm font-semibold text-wtext underline decoration-rule decoration-2 underline-offset-8 transition hover:decoration-sky"
+      className="inline-flex h-10 items-center rounded-full border border-line px-4 text-sm font-semibold text-fg transition hover:border-bright dark:hover:border-sky"
     >
       {nav.language}
     </a>
   );
 
   return (
-    <header className={`sticky top-0 z-50 border-b transition-colors duration-300 ${scrolled || open ? 'border-rule bg-paper/90 backdrop-blur-md' : 'border-transparent bg-paper'}`}>
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:bg-wink focus:px-4 focus:py-2 focus:text-paper">
+    <header className={`sticky top-0 z-50 border-b transition-colors duration-300 ${scrolled || open ? 'border-line bg-bg/85 backdrop-blur-md' : 'border-transparent bg-transparent'}`}>
+      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-fg">
         {nav.skip}
       </a>
       <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
@@ -62,9 +62,9 @@ export function WarraqHeader({ locale, nav, poweredBy }: { locale: Locale; nav: 
           <WarraqMark />
         </a>
 
-        <nav aria-label="Warraq" className="hidden items-center gap-7 xl:flex">
+        <nav aria-label="Warraq" className="hidden items-center gap-0.5 xl:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm font-medium whitespace-nowrap text-wmuted transition hover:text-wink">
+            <a key={l.href} href={l.href} className="rounded-full px-3 py-2 text-sm font-medium whitespace-nowrap text-muted transition hover:bg-surface hover:text-fg">
               {l.label}
             </a>
           ))}
@@ -80,7 +80,7 @@ export function WarraqHeader({ locale, nav, poweredBy }: { locale: Locale; nav: 
           <span aria-hidden="true" className="hidden h-6 w-px bg-rule lg:block" />
           <div className="hidden sm:block">{language}</div>
           <ThemeToggle labelDark={nav.themeDark} labelLight={nav.themeLight} />
-          <a href={warraqUrl} className="hidden items-center gap-2 rounded-[4px] bg-wink px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-paper transition hover:opacity-90 md:inline-flex">
+          <a href={warraqUrl} className="hidden items-center gap-2 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-accent-fg transition hover:brightness-110 md:inline-flex">
             {nav.cta}
             <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />
           </a>
@@ -109,7 +109,7 @@ export function WarraqHeader({ locale, nav, poweredBy }: { locale: Locale; nav: 
             {nav.home}
           </a>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-            <a href={warraqUrl} className="inline-flex items-center gap-2 rounded-[4px] bg-wink px-5 py-3 text-sm font-semibold text-paper md:hidden">
+            <a href={warraqUrl} className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-fg md:hidden">
               {nav.cta}
               <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />
             </a>

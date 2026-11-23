@@ -2,7 +2,7 @@ import type { Dictionary } from '@/i18n/get-dictionary';
 import { mediaAsset, warraqUrl } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { Icon } from '@/components/ui/Icon';
-import { toArabicDigits } from '@/components/brand/MarkGlyph';
+import { MarkGlyph, toArabicDigits } from '@/components/brand/MarkGlyph';
 import { PoweredBy } from './PoweredBy';
 
 // The first lines of the real reading shown on the page (sample 3.jpg, read by Warraq at www.eigentech.ai/ocr).
@@ -20,19 +20,22 @@ const LINES = [
  */
 export function WarraqHero({ t, poweredBy, home, transcript }: { t: Dictionary['warraqPage']['hero']; poweredBy: string; home: string; transcript: string }) {
   return (
-    <section aria-labelledby="hero-title" className="relative">
-      <Container className="grid gap-14 pt-10 pb-20 sm:pt-14 lg:grid-cols-12 lg:gap-10 lg:pb-24">
+    <section aria-labelledby="hero-title" className="relative overflow-hidden">
+      <div aria-hidden="true" className="bg-khatam pointer-events-none absolute inset-0 [mask-image:radial-gradient(75%_65%_at_75%_35%,black,transparent)]" />
+      <div aria-hidden="true" className="glow pointer-events-none absolute -top-48 end-[-12%] h-[44rem] w-[44rem]" />
+      <Container className="relative grid gap-14 pt-10 pb-20 sm:pt-14 lg:grid-cols-12 lg:gap-10 lg:pb-24">
         <div className="flex flex-col gap-7 lg:col-span-5 lg:pt-4">
-          <p className="flex items-center gap-3 text-sm font-medium text-wmuted">
-            <span aria-hidden="true" className="h-[2px] w-8 bg-sky" />
-            {t.eyebrow}
+          <p className="kicker flex items-center gap-3 text-bright dark:text-sky">
+            <MarkGlyph className="h-5 w-5 shrink-0" />
+            <span>{t.eyebrow}</span>
+            <span aria-hidden="true" className="h-px w-10 bg-bright/40 dark:bg-sky/40" />
           </p>
-          <h1 id="hero-title" className="font-display text-[2.3rem] leading-[1.14] font-semibold tracking-tight text-wtext sm:text-[2.75rem] lg:text-[2.9rem] rtl:leading-[1.36]">
+          <h1 id="hero-title" className="font-display text-[2.3rem] leading-[1.14] font-medium tracking-tight text-wtext sm:text-[2.75rem] lg:text-[2.9rem] rtl:leading-[1.36]">
             {t.titleStart} <span className="text-wink">{t.titleAccent}</span>
           </h1>
           <p className="text-lg leading-relaxed text-wmuted">{t.subtitle}</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-            <a href={warraqUrl} className="inline-flex items-center gap-2 rounded-[4px] bg-wink px-6 py-3.5 text-sm font-semibold text-paper transition hover:opacity-90">
+            <a href={warraqUrl} className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-fg shadow-sm shadow-royal/20 transition hover:brightness-110">
               {t.primary}
               <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />
             </a>
@@ -53,15 +56,15 @@ export function WarraqHero({ t, poweredBy, home, transcript }: { t: Dictionary['
         </div>
 
         <figure className="lg:col-span-7">
-          <div className="w-frame bg-paper-2 p-3 sm:p-4">
-            <div dir="ltr" className="relative overflow-hidden">
+          <div className="rounded-[1.75rem] border border-line bg-bg/90 p-3 shadow-2xl shadow-royal/10 backdrop-blur sm:p-4">
+            <div dir="ltr" className="relative overflow-hidden rounded-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={mediaAsset('warraq-reading-page.jpg')} alt={t.imageAlt} width={1490} height={1140} fetchPriority="high" className="block h-auto w-full" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={mediaAsset('warraq-reading-lines.png')} alt="" aria-hidden="true" width={1490} height={1140} className="w-reveal absolute inset-0 h-full w-full" />
               <span aria-hidden="true" className="w-scan absolute inset-x-0 h-[3px] bg-sky shadow-[0_0_16px_3px_rgba(95,169,224,0.6)]" />
             </div>
-            <div className="mt-4 border-t border-rule pt-3">
+            <div className="mt-4 border-t border-rule px-2 pt-3">
               <p className="text-xs font-medium text-wmuted">{transcript}</p>
               <ol dir="rtl" lang="ar" className="mt-1.5">
                 {LINES.map((line, i) => (
@@ -77,7 +80,7 @@ export function WarraqHero({ t, poweredBy, home, transcript }: { t: Dictionary['
             <span>{t.statsTitle}</span>
             {t.stats.map((s) => (
               <span key={s.label} className="whitespace-nowrap">
-                <b className="font-display text-2xl font-semibold text-wink tabular-nums">{s.value}</b> {s.label}
+                <b className="font-display text-2xl font-medium text-wink tabular-nums">{s.value}</b> {s.label}
               </span>
             ))}
           </figcaption>
