@@ -23,14 +23,18 @@ src/
       page.tsx         Home: Hero, Focus (Warraq, the main project and current focus, with its video),
                        Projects (the other projects, in brief), Services, Platform, Edge, Industries,
                        About (with the team), Contact
-      warraq/          The Warraq page: everything about Warraq, following the company profile (version 3)
+      warraq/          Old address of the Warraq page; it now sends visitors to /warraq/<lang>/
+    (root)/warraq/     www.eigentech.ai/warraq: picks /warraq/ar/ or /warraq/en/, like the home page
+    warraq/[lang]/     The standalone Warraq site (an independent project, powered by EigenTech): its own layout,
+                       header and footer, and all the details of Warraq from the company profile (version 3)
       privacy/         Privacy policy
     sitemap.ts, robots.ts
   components/
     brand/             Logo (آيجينتك always under EigenTech), HeroMark (animated mark), MarkGlyph
     layout/            Header (mobile menu), Footer, FloatingCTA, ThemeToggle, LanguageSwitcher
     sections/          One file per home-page section, plus ContactForm
-    warraq/            The sections of the Warraq page, and VideoPlayer (also used on the home page)
+    warraq/            The Warraq site: its header, footer, name mark, "Powered by" badge and sections, and
+                       VideoPlayer (also used on the home page)
     ui/                Container, SectionHeading (numbered), Button, Tag, Icon
   i18n/
     config.ts          Locales and text direction

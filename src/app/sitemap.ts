@@ -13,7 +13,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
   return [
     page('/', 1), { ...page('/', 1), url: `${site.url}/ar/` },
-    page('/warraq/', 0.9), { ...page('/warraq/', 0.9), url: `${site.url}/ar/warraq/` },
+    ...(['ar', 'en'] as const).map((l) => ({
+      url: `${site.url}/warraq/${l}/`,
+      lastModified: now,
+      priority: 0.9,
+      alternates: { languages: { ar: `${site.url}/warraq/ar/`, en: `${site.url}/warraq/en/` } },
+    })),
     page('/privacy/', 0.3), { ...page('/privacy/', 0.3), url: `${site.url}/ar/privacy/` },
   ];
 }

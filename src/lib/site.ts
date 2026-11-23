@@ -25,6 +25,9 @@ export const brandAsset = (path: string) => `${asset(path)}?v=${brandVersion}`;
 /** Warraq, the Arabic OCR tool. Cloudflare sends www.eigentech.ai/ocr* to the tool on our server. */
 export const warraqUrl = `${site.url}/ocr`;
 
+/** The standalone Warraq site (an independent project, powered by EigenTech): www.eigentech.ai/warraq/ar/ and /en/. */
+export const warraqHome = (locale: string) => `${basePath}/warraq/${locale}/`;
+
 /**
  * The Warraq videos, their posters and subtitles, and the images in public/media. Change this date when you
  * replace any of these files, so browsers and Cloudflare fetch the new ones.

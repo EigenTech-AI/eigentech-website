@@ -1,6 +1,6 @@
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
-import { basePath, warraqUrl } from '@/lib/site';
+import { warraqHome, warraqUrl } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { SectionKicker } from '@/components/ui/SectionHeading';
 import { Icon, type IconName } from '@/components/ui/Icon';
@@ -34,7 +34,7 @@ export function Focus({ locale, t, video }: { locale: Locale; t: Dictionary['foc
               </dl>
             </div>
             <div className="flex flex-wrap gap-3">
-              <a href={`${basePath}/${locale}/warraq/`} className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-royal transition hover:bg-sky">
+              <a href={warraqHome(locale)} className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-royal transition hover:bg-sky">
                 {t.primary}
                 <Icon name="arrow" className="h-4 w-4 rtl:rotate-180" />
               </a>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
-import { basePath, site } from '@/lib/site';
+import { basePath, site, warraqHome } from '@/lib/site';
 import { Logo } from '@/components/brand/Logo';
 import { Icon } from '@/components/ui/Icon';
 import { ThemeToggle } from './ThemeToggle';
@@ -14,7 +14,7 @@ export function Header({ locale, nav }: { locale: Locale; nav: Dictionary['nav']
   const [scrolled, setScrolled] = useState(false);
   const home = `${basePath}/${locale}/`;
   const links = [
-    { href: `${home}warraq/`, label: nav.warraq, main: true },
+    { href: warraqHome(locale), label: nav.warraq, main: true },
     { href: `${home}#projects`, label: nav.projects },
     { href: `${home}#services`, label: nav.services },
     { href: `${home}#platform`, label: nav.platform },

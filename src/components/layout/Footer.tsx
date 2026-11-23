@@ -1,6 +1,6 @@
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
-import { basePath, site } from '@/lib/site';
+import { basePath, site, warraqHome } from '@/lib/site';
 import { Logo } from '@/components/brand/Logo';
 import { Container } from '@/components/ui/Container';
 import { Icon } from '@/components/ui/Icon';
@@ -16,7 +16,7 @@ export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <p className="text-sm leading-relaxed text-muted">{dict.footer.tagline}</p>
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm sm:grid-cols-3">
-          <a href={`${home}warraq/`} className="font-semibold text-royal transition hover:text-fg dark:text-sky">
+          <a href={warraqHome(locale)} className="font-semibold text-royal transition hover:text-fg dark:text-sky">
             {dict.nav.warraq}
           </a>
           {(['projects', 'services', 'platform', 'edge', 'industries', 'about', 'contact'] as const).map((k) => (
